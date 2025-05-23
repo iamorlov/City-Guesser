@@ -20,7 +20,6 @@ export default function GamePage() {
   const [hints, setHints] = useState<string[]>([]);
   const [hintCount, setHintCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [markerPosition, setMarkerPosition] = useState<{lat: number, lng: number} | null>(null);
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [targetCity, setTargetCity] = useState<City | null>(null);
   const [gameOver, setGameOver] = useState(false);
@@ -65,8 +64,6 @@ export default function GamePage() {
   };
   
   const handleMarkerPlaced = (lat: number, lng: number) => {
-    setMarkerPosition({ lat, lng });
-    
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`)
       .then(res => res.json())
       .then(data => {
@@ -118,7 +115,6 @@ export default function GamePage() {
     setHints([]);
     setHintCount(0);
     setLoading(false);
-    setMarkerPosition(null);
     setSelectedCity('');
     setTargetCity(null);
     setGameOver(false);

@@ -51,13 +51,16 @@ export async function POST(request: Request) {
     
     return NextResponse.json({ hint });
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Grok API error:', error);
+    
+    // Type-safe error handling
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     
     return NextResponse.json(
       { 
         error: 'Failed to generate hint',
-        details: error.message 
+        details: errorMessage 
       },
       { status: 500 }
     );
