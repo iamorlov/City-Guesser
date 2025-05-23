@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import GameMap from '../components/GameMap';
 import HintBox from '../components/HintBox';
-import { getHintFromGrok, initializeGame } from '../lib/grokAPI';
+import { getHint } from '../utils/grokClient';
+import { initializeGame } from '../utils/gameUtils';
 
 interface City {
   name: string;
@@ -16,11 +17,12 @@ interface City {
 export default function GamePage() {
   const router = useRouter();
   const [gameStarted, setGameStarted] = useState(false);
-  const [points, setPoints] = useState(100);
+  const [points, setPoints] = useState(70);
   const [hints, setHints] = useState<string[]>([]);
   const [hintCount, setHintCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string>('');
+  const [manualCityInput, setManualCityInput] = useState<string>(''); // New state for manual input
   const [targetCity, setTargetCity] = useState<City | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [gameResult, setGameResult] = useState<'win' | 'lose' | null>(null);
@@ -49,7 +51,7 @@ export default function GamePage() {
     setLoading(true);
     try {
       setPoints(prev => prev - hintCost);
-      const newHint = await getHintFromGrok(hintCount + 1, targetCity?.name || '');
+      const newHint = await getHint(hintCount + 1, targetCity?.name || '');
       setHints(prev => [...prev, newHint]);
       setHintCount(prev => prev + 1);
     } catch (error) {
@@ -58,7 +60,7 @@ export default function GamePage() {
       setLoading(false);
     }
     
-    if (points - hintCost <= 0) {
+    if (points - hintCost < 0) {
       endGame('lose');
     }
   };
@@ -80,21 +82,33 @@ export default function GamePage() {
         }
         
         setSelectedCity(city);
+        setManualCityInput(city); // Update the input field when marker is placed
       })
       .catch(err => {
         console.error('Error getting city name:', err);
       });
   };
   
+  const handleManualInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setManualCityInput(e.target.value);
+    // Clear the map selection if user is typing
+    if (e.target.value !== selectedCity) {
+      setSelectedCity('');
+    }
+  };
+  
   const submitGuess = () => {
-    if (!selectedCity || !targetCity) return;
+    // Use either the manual input or the map-selected city
+    const guessCity = manualCityInput || selectedCity;
     
-    const isCorrect = selectedCity.trim().toLowerCase() === targetCity.name.trim().toLowerCase();
+    if (!guessCity || !targetCity) return;
+    
+    const isCorrect = guessCity.trim().toLowerCase() === targetCity.name.trim().toLowerCase();
     
     if (isCorrect) {
       endGame('win');
     } else {
-      const newPoints = points - 20;
+      const newPoints = points - 35;
       setPoints(newPoints);
       
       if (newPoints <= 0) {
@@ -173,29 +187,54 @@ export default function GamePage() {
             </motion.div>
           </div>
           
-          {/* Guess controls - fixed at bottom */}
+          {/* Updated guess controls with input field - neutral colors */}
           {!gameOver && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4">
               <motion.div 
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="bg-black/50 backdrop-blur-md rounded-xl p-4"
+                className="bg-white backdrop-blur-md rounded-xl p-5 shadow-lg"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div>
-                    <p className="text-purple-200 mb-1">Selected Location:</p>
-                    <p className="text-white font-medium">
-                      {selectedCity ? selectedCity : 'No location selected'}
-                    </p>
+                <div className="flex flex-col gap-4">
+                  {/* City input and button - properly aligned */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex-grow">
+                      <label htmlFor="cityInput" className="text-gray-700 text-sm mb-1.5 block font-medium">
+                        City Name
+                      </label>
+                      <div className="relative">
+                        <input
+                          id="cityInput"
+                          type="text"
+                          value={manualCityInput}
+                          onChange={handleManualInputChange}
+                          placeholder="Enter city name..."
+                          className="w-full h-12 px-4 rounded-lg bg-gray-50 text-gray-800 border border-gray-300 focus:border-gray-500 focus:outline-none text-base"
+                        />
+                        {selectedCity && manualCityInput !== selectedCity && (
+                          <p className="absolute -bottom-6 left-0 text-xs text-gray-600 mt-1">
+                            Different from map selection: <span className="font-medium">{selectedCity}</span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="pt-7"> {/* Adding top padding to align with input */}
+                      <button
+                        onClick={submitGuess}
+                        disabled={!manualCityInput && !selectedCity}
+                        className="h-12 bg-gray-700 hover:bg-gray-800 text-white font-medium px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap"
+                      >
+                        Submit Guess
+                      </button>
+                    </div>
                   </div>
-                  <button
-                    onClick={submitGuess}
-                    disabled={!selectedCity}
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                  >
-                    Submit Guess
-                  </button>
+                  
+                  {/* Hint text moved to bottom with gray colors */}
+                  <p className="text-gray-500 text-xs text-center italic mt-1">
+                    Write city name or find it on the map
+                  </p>
                 </div>
               </motion.div>
             </div>

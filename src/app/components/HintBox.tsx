@@ -32,29 +32,23 @@ export default function HintBox({
     // Use hint count to determine text
     if (hintCount === 0) {
       return "Let's play!";
-    } else if (hintCount >= 1 && hintCount <= 2) {
-      return "More hints";
-    } else if (hintCount >= 3 && hintCount <= 6) {
-      return "More info";
     } else {
-      return "Give me more details";
+      return "Next hint!";
     }
   };
   
   return (
-    <div className="bg-white/95 backdrop-blur-md flex flex-col h-full border-r border-gray-200 shadow-lg">
-      {/* Game Header - fixed at top */}
-      <div className="bg-gray-800 p-4 border-b border-gray-300">
-        <h1 className="text-2xl font-bold text-white mb-2">{gameTitle}</h1>
-        <div className="bg-gray-700 text-white px-4 py-2 rounded-lg inline-block">
+    <div className="bg-white/95 backdrop-blur-md flex flex-col h-full shadow-lg">
+      <div className="bg-gray-800 px-6 py-4 border-b border-gray-300 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-white">{gameTitle}</h1>
+        <div className="bg-gray-700 text-white px-4 py-2 rounded-lg">
           Points: <span className="font-bold">{points}</span>
         </div>
       </div>
       
-      {/* Hint section - scrollable content area */}
       <div className="p-6 flex-grow flex flex-col overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-800">City Clues</h2>
+          <h2 className="text-xl font-bold text-gray-800">Hints</h2>
           <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
             {hintCount >= 3 ? (
               <span>-{hintCost} points per hint</span>
