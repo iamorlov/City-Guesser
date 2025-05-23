@@ -42,7 +42,7 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
         if (mapRef.current) {
           const mapInstance = new Map(mapRef.current, {
             center: { lat: 20, lng: 0 },
-            zoom: 2,
+            zoom: 3,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
             streetViewControl: false,
