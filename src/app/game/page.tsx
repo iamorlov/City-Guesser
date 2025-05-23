@@ -44,7 +44,7 @@ export default function GamePage() {
   }, []);
   
   const requestHint = async () => {
-    const hintCost = hintCount >= 3 ? 13 : 0;
+    const hintCost = hintCount >= 3 ? 10 : 0;
     if (points < hintCost) return;
     
     setLoading(true);
