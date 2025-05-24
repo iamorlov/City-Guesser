@@ -29,7 +29,7 @@ export async function getHint(hintNumber: number, cityName: string): Promise<str
       - For hint 7, provide a hint about the architecture or skyline of the city.
       - For hint 8, provide fairly obvious hint, you can name famous landmarks or events of this city, as well as the country where this city is located.
       - For hint 9, provide the number of characters in the name of the city.
-      - For hint 10, provide the first letter of the town. If the name consists of several words. Replace the first letters of all words and the rest of the letters with *.
+      - For hint 10, provide the first letter, and 1/3 of other letters of the town. If the name consists of several words. Replace the first letters of all words and the rest of the letters with *.
       - Keep hints to 1-3 sentences maximum
       - Ensure the hint is factually accurate
       - Make the hints progressively more specific

@@ -127,6 +127,7 @@ export default function GamePage() {
     setHintCount(0);
     setLoading(false);
     setSelectedCity('');
+    setManualCityInput('');
     setTargetCity(null);
     setGameOver(false);
     setGameResult(null);

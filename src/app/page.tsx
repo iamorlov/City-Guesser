@@ -11,7 +11,7 @@ export default function Home() {
   const handleStart = () => {
     setIsStarting(true);
     // Add a small delay for animation
-    setTimeout(() => router.push("/game"), 500);
+    setTimeout(() => router.push("/game"), 300);
   };
 
   return (
