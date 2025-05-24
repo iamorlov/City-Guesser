@@ -73,7 +73,7 @@ export async function initializeGame(): Promise<City> {
           Respond in valid JSON format only with this exact structure:
           {"name": "CityName", "lat": latitude, "lng": longitude}
           
-          The city should be internationally recognized and have a population over 500,000.
+          The city should be internationally recognized and have a population over 250,000.
           Do not include any additional text or explanation in your response.`
         }
       ],
@@ -86,9 +86,7 @@ export async function initializeGame(): Promise<City> {
       throw new Error('No response from Grok');
     }
     
-    // Parse the JSON response
     const cityData = JSON.parse(responseText) as City;
-    console.log(`Selected city: ${cityData.name}`);
     
     return cityData;
   } catch (error) {
@@ -98,7 +96,6 @@ export async function initializeGame(): Promise<City> {
     const randomIndex = Math.floor(Math.random() * fallbackCities.length);
     const fallbackCity = fallbackCities[randomIndex];
     
-    console.log(`Falling back to predefined city: ${fallbackCity.name}`);
     return fallbackCity;
   }
 }

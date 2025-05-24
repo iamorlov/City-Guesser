@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 interface HintBoxProps {
   hints: string[];
@@ -8,7 +9,7 @@ interface HintBoxProps {
   points: number;
   onRequestHint: () => void;
   loading: boolean;
-  gameTitle: string; // Add this new prop
+  gameTitle: string;
 }
 
 export default function HintBox({ 
@@ -19,6 +20,17 @@ export default function HintBox({
   loading,
   gameTitle
 }: HintBoxProps) {
+  // Create a ref for the scrollable container
+  const hintsContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Scroll to bottom when hints change
+  useEffect(() => {
+    if (hintsContainerRef.current && hints.length > 0) {
+      setTimeout(() => {
+        hintsContainerRef.current!.scrollTop = hintsContainerRef.current!.scrollHeight;
+      }, 100); // Small delay to ensure animation has started
+    }
+  }, [hints]);
   
   const hintCost = hintCount >= 3 ? 10 : 0;
   const canRequestHint = points >= hintCost;
@@ -46,7 +58,10 @@ export default function HintBox({
         </div>
       </div>
       
-      <div className="p-6 flex-grow flex flex-col overflow-y-auto">
+      <div 
+        ref={hintsContainerRef} 
+        className="p-6 flex-grow flex flex-col overflow-y-auto scroll-smooth"
+      >
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold text-gray-800">Hints</h2>
           <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
@@ -58,7 +73,7 @@ export default function HintBox({
           </div>
         </div>
         
-        {/* Hints container - no longer needs to be scrollable itself */}
+        {/* Hints container with ref for scrolling */}
         <div className="flex-grow mb-6 space-y-4 pr-2">
           {hints.length === 0 ? (
             <div className="flex items-center justify-center h-full min-h-[200px]">
@@ -86,7 +101,6 @@ export default function HintBox({
           )}
         </div>
         
-        {/* Button stays within the scrollable area */}
         <button
           onClick={onRequestHint}
           disabled={!canRequestHint || loading}

@@ -22,7 +22,7 @@ export default function GamePage() {
   const [hintCount, setHintCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string>('');
-  const [manualCityInput, setManualCityInput] = useState<string>(''); // New state for manual input
+  const [manualCityInput, setManualCityInput] = useState<string>('');
   const [targetCity, setTargetCity] = useState<City | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [gameResult, setGameResult] = useState<'win' | 'lose' | null>(null);
@@ -82,7 +82,7 @@ export default function GamePage() {
         }
         
         setSelectedCity(city);
-        setManualCityInput(city); // Update the input field when marker is placed
+        setManualCityInput(city);
       })
       .catch(err => {
         console.error('Error getting city name:', err);
@@ -91,14 +91,12 @@ export default function GamePage() {
   
   const handleManualInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setManualCityInput(e.target.value);
-    // Clear the map selection if user is typing
     if (e.target.value !== selectedCity) {
       setSelectedCity('');
     }
   };
   
   const submitGuess = () => {
-    // Use either the manual input or the map-selected city
     const guessCity = manualCityInput || selectedCity;
     
     if (!guessCity || !targetCity) return;
@@ -108,7 +106,7 @@ export default function GamePage() {
     if (isCorrect) {
       endGame('win');
     } else {
-      const newPoints = points - 35;
+      const newPoints = points - 20;
       setPoints(newPoints);
       
       if (newPoints <= 0) {
@@ -123,9 +121,8 @@ export default function GamePage() {
   };
   
   const playAgain = () => {
-    // Reset all game state
     setGameStarted(false);
-    setPoints(100);
+    setPoints(70);
     setHints([]);
     setHintCount(0);
     setLoading(false);
@@ -134,7 +131,6 @@ export default function GamePage() {
     setGameOver(false);
     setGameResult(null);
     
-    // Restart the game
     const startNewGame = async () => {
       setLoading(true);
       try {
@@ -159,7 +155,6 @@ export default function GamePage() {
     <main className="relative h-screen w-screen overflow-hidden bg-gradient-to-br from-indigo-900 to-purple-900">
       {gameStarted ? (
         <>
-          {/* Fullscreen map */}
           <div className="absolute inset-0 z-0">
             <GameMap 
               onMarkerPlaced={handleMarkerPlaced}
@@ -168,7 +163,6 @@ export default function GamePage() {
             />
           </div>
           
-          {/* Full height HintBox on the left with header information */}
           <div className="absolute left-0 top-0 bottom-0 z-20 w-96">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
@@ -187,7 +181,6 @@ export default function GamePage() {
             </motion.div>
           </div>
           
-          {/* Updated guess controls with input field - neutral colors */}
           {!gameOver && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4">
               <motion.div 
@@ -220,18 +213,17 @@ export default function GamePage() {
                       </div>
                     </div>
                     
-                    <div className="pt-7"> {/* Adding top padding to align with input */}
+                    <div className="pt-7">
                       <button
                         onClick={submitGuess}
-                        disabled={!manualCityInput && !selectedCity}
+                        disabled={(!manualCityInput && !selectedCity) || !targetCity}
                         className="h-12 bg-gray-700 hover:bg-gray-800 text-white font-medium px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap"
                       >
-                        Submit Guess
+                        {!targetCity ? "Start Game First" : "Submit Guess"}
                       </button>
                     </div>
                   </div>
                   
-                  {/* Hint text moved to bottom with gray colors */}
                   <p className="text-gray-500 text-xs text-center italic mt-1">
                     Write city name or find it on the map
                   </p>
@@ -240,7 +232,6 @@ export default function GamePage() {
             </div>
           )}
           
-          {/* Game over message - centered modal */}
           {gameOver && (
             <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/40">
               <motion.div 
