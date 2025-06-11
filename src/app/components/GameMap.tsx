@@ -201,7 +201,7 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
   }, []);
   
   return (
-    <div className="w-full h-full rounded-xl overflow-hidden border-2 border-purple-800 shadow-lg">
+    <div className="w-full h-full overflow-hidden shadow-lg">
       <div ref={mapRef} className="w-full h-full min-h-[400px]" />
     </div>
   );

@@ -50,10 +50,10 @@ export default function HintBox({
   };
   
   return (
-    <div className="bg-white/95 backdrop-blur-md flex flex-col h-full shadow-lg">
-      <div className="bg-gray-800 px-6 py-4 border-b border-gray-300 flex justify-between items-center">
+    <div className="bg-white/95 backdrop-blur-md flex flex-col h-full shadow-lg rounded-xl m-4">
+      <div className="bg-green-500 px-6 py-4 border-b border-green-200 flex justify-between items-center rounded-t-xl">
         <h1 className="text-2xl font-bold text-white">{gameTitle}</h1>
-        <div className="bg-gray-700 text-white px-4 py-2 rounded-lg">
+        <div className="bg-green-400 text-white px-4 py-2 rounded-lg">
           Points: <span className="font-bold">{points}</span>
         </div>
       </div>
@@ -63,8 +63,8 @@ export default function HintBox({
         className="p-6 flex-grow flex flex-col overflow-y-auto scroll-smooth"
       >
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-800">Hints</h2>
-          <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+          <h2 className="text-xl font-bold text-slate-700">Hints</h2>
+          <div className="text-sm text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
             {hintCount >= 3 ? (
               <span>-{hintCost} points per hint</span>
             ) : (
@@ -77,7 +77,7 @@ export default function HintBox({
         <div className="flex-grow mb-6 space-y-4 pr-2">
           {hints.length === 0 ? (
             <div className="flex items-center justify-center h-full min-h-[200px]">
-              <p className="text-gray-500 italic text-center px-4 py-8 bg-gray-100 rounded-lg">
+              <p className="text-slate-500 italic text-center px-4 py-8 bg-slate-50 rounded-lg">
                 Hints will appear here as you request them
               </p>
             </div>
@@ -89,11 +89,11 @@ export default function HintBox({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+                  className="bg-slate-50 p-4 rounded-lg border border-slate-200"
                 >
-                  <p className="text-gray-700">{hint}</p>
-                  <div className="text-xs text-gray-500 mt-2 flex items-center">
-                    <span className="bg-gray-200 px-2 py-1 rounded-md">Hint #{index + 1}</span>
+                  <p className="text-slate-700">{hint}</p>
+                  <div className="text-xs text-slate-500 mt-2 flex items-center">
+                    <span className="bg-slate-200 px-2 py-1 rounded-md">Hint #{index + 1}</span>
                   </div>
                 </motion.div>
               ))}
@@ -106,8 +106,8 @@ export default function HintBox({
           disabled={!canRequestHint || loading}
           className={`w-full py-3 px-4 rounded-lg flex items-center justify-center transition-all ${
             canRequestHint 
-              ? 'bg-gray-800 hover:bg-gray-900 text-white' 
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              ? 'bg-green-500 hover:bg-green-600 text-white' 
+              : 'bg-slate-200 text-slate-400 cursor-not-allowed'
           }`}
         >
           {loading ? (

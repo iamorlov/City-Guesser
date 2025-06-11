@@ -15,20 +15,20 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-br from-indigo-900 to-purple-900">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-br from-gray-50 via-white to-gray-100">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="text-center max-w-3xl mx-auto"
       >
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-8">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-400">
+        <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-8">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-green-500 to-emerald-500">
             City Guesser
           </span>
         </h1>
 
-        <p className="text-lg md:text-xl text-purple-200 mb-12">
+        <p className="text-lg md:text-xl text-gray-600 mb-12">
           Guess the mystery city with help from Grok AI. Get clues, place markers,
           and test your geography knowledge!
         </p>
@@ -36,7 +36,7 @@ export default function Home() {
         <motion.button
           onClick={handleStart}
           disabled={isStarting}
-          className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg transition-all disabled:opacity-70"
+          className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg transition-all disabled:opacity-70 border border-green-500/30"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -69,7 +69,7 @@ export default function Home() {
           )}
         </motion.button>
 
-        <div className="mt-16 text-purple-300 text-sm">
+        <div className="mt-16 text-gray-500 text-sm">
           <p>Powered by Google Maps and Grok AI</p>
         </div>
       </motion.div>
