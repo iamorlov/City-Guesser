@@ -153,7 +153,7 @@ export default function GamePage() {
   };
   
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-gradient-to-br from-indigo-900 to-purple-900">
+    <main className="relative h-screen w-screen overflow-hidden bg-white">
       {gameStarted ? (
         <>
           <div className="absolute inset-0 z-0">
@@ -188,7 +188,7 @@ export default function GamePage() {
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="bg-white backdrop-blur-md rounded-xl p-5 shadow-lg"
+                className="bg-white/85 backdrop-blur-md rounded-xl p-5 shadow-lg"
               >
                 <div className="flex flex-col gap-4">
                   {/* City input and button - properly aligned */}
@@ -204,7 +204,7 @@ export default function GamePage() {
                           value={manualCityInput}
                           onChange={handleManualInputChange}
                           placeholder="Enter city name..."
-                          className="w-full h-12 px-4 rounded-lg bg-gray-50 text-gray-800 border border-gray-300 focus:border-gray-500 focus:outline-none text-base"
+                          className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-800 border border-gray-500/50 focus:border-green-500 focus:outline-none text-base placeholder-gray-500"
                         />
                         {selectedCity && manualCityInput !== selectedCity && (
                           <p className="absolute -bottom-6 left-0 text-xs text-gray-600 mt-1">
@@ -218,7 +218,7 @@ export default function GamePage() {
                       <button
                         onClick={submitGuess}
                         disabled={(!manualCityInput && !selectedCity) || !targetCity}
-                        className="h-12 bg-gray-700 hover:bg-gray-800 text-white font-medium px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap"
+                        className="h-12 bg-green-600 hover:bg-green-700 text-white font-medium px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap"
                       >
                         {!targetCity ? "Start Game First" : "Submit Guess"}
                       </button>
@@ -256,13 +256,13 @@ export default function GamePage() {
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <button
                     onClick={playAgain}
-                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all"
+                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all"
                   >
                     Play Again
                   </button>
                   <button
                     onClick={goHome}
-                    className="bg-transparent border border-purple-400 hover:bg-purple-900/30 text-purple-100 font-bold py-3 px-6 rounded-lg transition-all"
+                    className="bg-transparent border border-green-400 hover:bg-green-900/30 text-green-100 font-bold py-3 px-6 rounded-lg transition-all"
                   >
                     Back to Home
                   </button>
@@ -274,8 +274,8 @@ export default function GamePage() {
       ) : (
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white mx-auto mb-6"></div>
-            <p className="text-purple-200 text-xl">Initializing game...</p>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-800 mx-auto mb-6"></div>
+            <p className="text-gray-800 text-xl">Initializing game...</p>
           </div>
         </div>
       )}
