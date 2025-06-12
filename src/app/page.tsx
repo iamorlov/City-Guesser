@@ -22,15 +22,14 @@ export default function Home() {
         transition={{ duration: 0.8 }}
         className="text-center max-w-3xl mx-auto"
       >
-        <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-8">
+        <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-12">
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-green-500 to-emerald-500">
             City Guesser
           </span>
         </h1>
 
         <p className="text-lg md:text-xl text-gray-600 mb-12">
-          Guess the mystery city with help from Grok AI. Get clues, place markers,
-          and test your geography knowledge!
+          Guess the city and test your geography knowledge!
         </p>
 
         <motion.button
@@ -68,10 +67,6 @@ export default function Home() {
             "Start Game"
           )}
         </motion.button>
-
-        <div className="mt-16 text-gray-500 text-sm">
-          <p>Powered by Google Maps and Grok AI</p>
-        </div>
       </motion.div>
     </main>
   );

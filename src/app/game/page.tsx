@@ -274,7 +274,7 @@ export default function GamePage() {
       ) : (
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-800 mx-auto mb-6"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-700 mx-auto mb-6"></div>
             <p className="text-gray-800 text-xl">Initializing game...</p>
           </div>
         </div>
