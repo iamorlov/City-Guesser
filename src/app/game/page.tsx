@@ -153,7 +153,7 @@ export default function GamePage() {
   };
   
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-white">
+    <main className="relative h-screen w-screen overflow-hidden bg-[#E4EFE7]">
       {gameStarted ? (
         <>
           <div className="absolute inset-0 z-0">
@@ -275,7 +275,7 @@ export default function GamePage() {
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-700 mx-auto mb-6"></div>
-            <p className="text-gray-800 text-xl">Initializing game...</p>
+            <p className="text-[#588157] text-xl">Initializing game...</p>
           </div>
         </div>
       )}

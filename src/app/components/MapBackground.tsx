@@ -2641,8 +2641,6 @@ export default function MapBackground() {
           <circle className="map-dot-default" cx="19" cy="151" r="1.9" />
           <circle className="map-dot-default" cx="19" cy="157.8" r="1.9" />
         </svg>
-
-
       </div>
     </div>
   );
