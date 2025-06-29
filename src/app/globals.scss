@@ -68,3 +68,27 @@
 .map-dot-active {
   fill: #457b9d;
 }
+
+/* Smooth wave animation */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient-text {
+  background: linear-gradient(
+    to right,
+    #3A5A40 20%,
+    #588157 50%,
+    #344E41 80%,
+  );
+  background-size: 500% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientAnimation 4s ease-in-out infinite alternate;
+}

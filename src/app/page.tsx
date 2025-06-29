@@ -18,15 +18,15 @@ export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
       <MapBackground />
-      <div className="relative text-center max-w-3xl mx-auto py-8 px-16 rounded-[2.5rem] overflow-hidden">
+      <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[2.5rem] overflow-hidden">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.8 }}
           className="z-10"
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-12 z-10 relative">
-            <span className="bg-gradient-to-b from-[#588157] to-[#344e41] bg-clip-text text-transparent">
+          <h1 className="text-8xl md:text-9xl font-bold text-gray-800 mb-12 z-10 relative">
+            <span className="animated-gradient-text">
               City Guesser
             </span>
           </h1>
