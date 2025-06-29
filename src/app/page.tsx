@@ -19,9 +19,6 @@ export default function Home() {
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
       <MapBackground />
       <div className="relative text-center max-w-3xl mx-auto py-8 px-16 rounded-[2.5rem] overflow-hidden">
-        <div className="liquid-glass"></div>
-        <div className="liquid-glass-tint"></div>
-        <div className="liquid-glass-shine"></div>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,62 +72,6 @@ export default function Home() {
           </motion.button>
         </motion.div>
       </div>
-
-      <svg style={{ display: "none" }}>
-        <filter
-          id="glass-distortion"
-          x="0%"
-          y="0%"
-          width="100%"
-          height="100%"
-          filterUnits="objectBoundingBox"
-        >
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.001 0.005"
-            numOctaves="1"
-            seed="17"
-            result="turbulence"
-          />
-
-          <feComponentTransfer in="turbulence" result="mapped">
-            <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
-            <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
-            <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
-          </feComponentTransfer>
-
-          <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
-
-          <feSpecularLighting
-            in="softMap"
-            surfaceScale="5"
-            specularConstant="1"
-            specularExponent="100"
-            lightingColor="white"
-            result="specLight"
-          >
-            <fePointLight x="-200" y="-200" z="300" />
-          </feSpecularLighting>
-
-          <feComposite
-            in="specLight"
-            operator="arithmetic"
-            k1="0"
-            k2="1"
-            k3="1"
-            k4="0"
-            result="litImage"
-          />
-
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="softMap"
-            scale="200"
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-      </svg>
     </main>
   );
 }
