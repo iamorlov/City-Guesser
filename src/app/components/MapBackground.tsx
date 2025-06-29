@@ -9,7 +9,7 @@ export default function MapBackground() {
       className={`absolute inset-0 w-full h-full flex items-center justify-center`}
       style={{
         zIndex: -1,
-        background: "#fff"
+        background: "#E4EFE7"
       }}
     >
 
