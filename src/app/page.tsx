@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import MapBackground from "./components/MapBackground";
 
 export default function Home() {
   const [isStarting, setIsStarting] = useState(false);
@@ -15,12 +16,13 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
+      <MapBackground />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-center max-w-3xl mx-auto"
+        className="relative z-10 text-center max-w-3xl mx-auto"
       >
         <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-12">
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-green-500 to-emerald-500">
