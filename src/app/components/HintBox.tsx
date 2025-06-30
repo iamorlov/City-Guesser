@@ -50,17 +50,20 @@ export default function HintBox({
   };
   
   return (
-    <div className="bg-white/80 backdrop-blur-md flex flex-col h-full max-h-screen shadow-lg">
-      <div className="bg-[#588157] px-6 py-4 flex justify-between items-center flex-shrink-0">
-        <h1 className="text-2xl font-bold text-white">{gameTitle}</h1>
-      </div>
+    <div className="bg-[#E4EFE7] p-5 rounded-xl flex flex-col h-full max-h-screen">
+      <div className="backdrop-blur-md flex flex-col h-full rounded-lg overflow-hidden">
+        <div className="flex px-5 text-[#588157] text-5xl">
+          Guess<span className="font-[800]">me</span>
+        </div>
       
       <div 
         ref={hintsContainerRef} 
-        className="p-6 flex-grow flex flex-col overflow-y-auto scroll-smooth min-h-0"
+        className="p-5 flex-grow flex flex-col overflow-y-auto scroll-smooth min-h-0"
       >
         <div className="flex justify-between items-center mb-6 flex-shrink-0">
-          <h2 className="text-xl font-bold text-slate-700">Hints</h2>
+          <h2 className="text-xl font-bold text-slate-700">
+            Hints {hintCount > 0 && <span className="text-gray-400">({hintCount}/10)</span>}
+          </h2>
         </div>
         
         {/* Hints container with ref for scrolling */}
@@ -83,7 +86,7 @@ export default function HintBox({
                 >
                   <p className="text-slate-700">{hint}</p>
                   <div className="text-xs text-slate-500 mt-2 flex items-center">
-                    <span className="bg-slate-200/70 backdrop-blur-sm px-2 py-1 rounded-md border border-slate-300/50">Hint #{index + 1}</span>
+                    <span className="bg-slate-200/70 backdrop-blur-sm px-2 py-1 rounded-md">Hint #{index + 1}</span>
                   </div>
                 </motion.div>
               ))}
@@ -93,7 +96,7 @@ export default function HintBox({
       </div>
       
       {/* Button outside scrollable area */}
-      <div className="p-6 pt-0 flex-shrink-0">
+      <div className="p-5 pb-0 flex-shrink-0">
         <button
           onClick={onRequestHint}
           disabled={!canRequestHint || loading}
@@ -117,6 +120,7 @@ export default function HintBox({
             </span>
           )}
         </button>
+      </div>
       </div>
     </div>
   );

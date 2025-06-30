@@ -26,7 +26,7 @@ export default function Home() {
           className="z-10"
         >
           <h1 className="text-8xl md:text-9xl font-bold text-gray-800 mb-12 z-10 relative">
-            <span className="animated-gradient-text">
+            <span className="text-[#588157]">
                Guess<span className="font-[800]">me</span>
             </span>
           </h1>

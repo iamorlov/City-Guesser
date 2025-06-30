@@ -153,18 +153,11 @@ export default function GamePage() {
   };
   
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-[#E4EFE7]">
+    <main className="h-screen w-screen bg-[#E4EFE7] flex">
       {gameStarted ? (
         <>
-          <div className="absolute inset-0 z-0">
-            <GameMap 
-              onMarkerPlaced={handleMarkerPlaced}
-              revealCity={gameOver ? (targetCity || undefined) : undefined}
-              gameOver={gameOver}
-            />
-          </div>
-          
-          <div className="absolute left-0 top-0 bottom-0 z-20 w-96">
+          {/* Chat Sidebar - Fixed width */}
+          <div className="min-w-96 w-96 h-full flex-shrink-0">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -177,62 +170,75 @@ export default function GamePage() {
                 points={points}
                 onRequestHint={requestHint}
                 loading={loading}
-                gameTitle="City Guesser" // Pass the game title to HintBox
+                gameTitle="City Guesser"
               />
             </motion.div>
           </div>
-          
-          {!gameOver && (
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-2xl px-4">
-              <motion.div 
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white/85 backdrop-blur-md rounded-xl p-5 shadow-lg"
-              >
-                <div className="flex flex-col gap-4">
-                  {/* City input and button - properly aligned */}
-                  <div className="flex items-center gap-3">
-                    <div className="flex-grow">
-                      <label htmlFor="cityInput" className="text-gray-700 text-sm mb-1.5 block font-medium">
-                        City Name
-                      </label>
-                      <div className="relative">
-                        <input
-                          id="cityInput"
-                          type="text"
-                          value={manualCityInput}
-                          onChange={handleManualInputChange}
-                          placeholder="Enter city name..."
-                          className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-800 border border-gray-500/50 focus:border-green-500 focus:outline-none text-base placeholder-gray-500"
-                        />
-                        {selectedCity && manualCityInput !== selectedCity && (
-                          <p className="absolute -bottom-6 left-0 text-xs text-gray-600 mt-1">
-                            Different from map selection: <span className="font-medium">{selectedCity}</span>
-                          </p>
-                        )}
+
+          {/* Map Area - Takes remaining space */}
+          <div className="flex-1 h-full p-6 relative">
+            <div className="w-full h-full rounded-2xl overflow-hidden relative">
+              <GameMap 
+                onMarkerPlaced={handleMarkerPlaced}
+                revealCity={gameOver ? (targetCity || undefined) : undefined}
+                gameOver={gameOver}
+              />
+              
+              {/* Input field at bottom center of map */}
+              {!gameOver && (
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-2xl px-4">
+                  <motion.div 
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-white/70 backdrop-blur-md rounded-xl p-5 shadow-lg"
+                  >
+                    <div className="flex flex-col gap-4">
+                      {/* City input and button - properly aligned */}
+                      <div className="flex items-center gap-3">
+                        <div className="flex-grow">
+                          <label htmlFor="cityInput" className="text-gray-700 text-sm mb-1.5 block font-medium">
+                            City Name
+                          </label>
+                          <div className="relative">
+                            <input
+                              id="cityInput"
+                              type="text"
+                              value={manualCityInput}
+                              onChange={handleManualInputChange}
+                              placeholder="Enter city name..."
+                              className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-800 border border-gray-500/50 focus:border-green-500 focus:outline-none text-base placeholder-gray-500"
+                            />
+                            {selectedCity && manualCityInput !== selectedCity && (
+                              <p className="absolute -bottom-6 left-0 text-xs text-gray-600 mt-1">
+                                Different from map selection: <span className="font-medium">{selectedCity}</span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="pt-7">
+                          <button
+                            onClick={submitGuess}
+                            disabled={(!manualCityInput && !selectedCity) || !targetCity}
+                            className="h-12 bg-green-600 hover:bg-green-700 text-white font-medium px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap"
+                          >
+                            {!targetCity ? "Start Game First" : "Submit Guess"}
+                          </button>
+                        </div>
                       </div>
+                      
+                      <p className="text-gray-500 text-xs text-center italic mt-1">
+                        Write city name or find it on the map
+                      </p>
                     </div>
-                    
-                    <div className="pt-7">
-                      <button
-                        onClick={submitGuess}
-                        disabled={(!manualCityInput && !selectedCity) || !targetCity}
-                        className="h-12 bg-green-600 hover:bg-green-700 text-white font-medium px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap"
-                      >
-                        {!targetCity ? "Start Game First" : "Submit Guess"}
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-500 text-xs text-center italic mt-1">
-                    Write city name or find it on the map
-                  </p>
+                  </motion.div>
                 </div>
-              </motion.div>
+              )}
             </div>
-          )}
-          
+          </div>
+
+          {/* Game Over Modal */}
           {gameOver && (
             <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/40">
               <motion.div 
