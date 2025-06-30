@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: var(--nunito-sans), sans-serif;
+}
+
 /* Game-specific styles */
 .hint-container {
   height: 100%;
@@ -82,9 +86,9 @@
 .animated-gradient-text {
   background: linear-gradient(
     to right,
-    #3A5A40 20%,
-    #588157 50%,
-    #344E41 80%,
+    #415D43 20%,
+    #709775 50%,
+    #415D43 80%,
   );
   background-size: 500% auto;
   background-clip: text;
