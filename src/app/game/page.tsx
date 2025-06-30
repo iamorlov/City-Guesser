@@ -176,7 +176,7 @@ export default function GamePage() {
 
           {/* Map Area - Takes remaining space */}
           <div className="flex-1 h-full p-6 relative">
-            <div className="w-full h-full rounded-2xl overflow-hidden relative">
+            <div className="w-full h-full rounded-2xl overflow-hidden relative shadow-sm">
               <GameMap 
                 onMarkerPlaced={handleMarkerPlaced}
                 revealCity={gameOver ? (targetCity || undefined) : undefined}
@@ -206,7 +206,7 @@ export default function GamePage() {
                               value={manualCityInput}
                               onChange={handleManualInputChange}
                               placeholder="Enter city name..."
-                              className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-800 border border-gray-500/50 focus:border-green-500 focus:outline-none text-base placeholder-gray-500"
+                              className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-800 border border-gray-500/50 focus:border-[#588157] focus:outline-none text-base placeholder-gray-500"
                             />
                             {selectedCity && manualCityInput !== selectedCity && (
                               <p className="absolute -bottom-6 left-0 text-xs text-gray-600 mt-1">
@@ -220,7 +220,7 @@ export default function GamePage() {
                           <button
                             onClick={submitGuess}
                             disabled={(!manualCityInput && !selectedCity) || !targetCity}
-                            className="h-12 bg-green-600 hover:bg-green-700 text-white font-medium px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap"
+                            className="h-12 bg-[#588157] hover:bg-[#3a5a40] text-white px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap cursor-pointer"
                           >
                             {!targetCity ? "Start Game First" : "Submit Guess"}
                           </button>
@@ -239,19 +239,17 @@ export default function GamePage() {
 
           {/* Game Over Modal */}
           {gameOver && (
-            <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/40">
+            <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-sm">
               <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-gray-900/90 backdrop-blur-md p-8 rounded-xl max-w-md mx-4"
+                className="bg-white/95 backdrop-blur-md p-8 rounded-xl max-w-md mx-4 shadow-xl"
               >
-                <h2 className={`text-3xl font-bold mb-4 ${
-                  gameResult === 'win' ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {gameResult === 'win' ? 'You Won! 🎉' : 'Game Over!'}
+                <h2 className={`text-3xl font-bold mb-4 ${gameResult === 'win' ? 'text-[#588157]' : 'text-[#b23a48]'}`}>
+                  {gameResult === 'win' ? 'You Won! 🎉' : 'Game Over! ☹️'}
                 </h2>
                 
-                <p className="text-white text-lg mb-8">
+                <p className="text-gray-600 text-lg mb-8">
                   {gameResult === 'win' 
                     ? `Congratulations! You correctly identified ${targetCity?.name}!` 
                     : `The city was ${targetCity?.name}. Better luck next time!`
@@ -261,13 +259,13 @@ export default function GamePage() {
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <button
                     onClick={playAgain}
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all"
+                    className={`${gameResult === 'win' ? 'bg-[#588157] hover:bg-[#3a5a40]' : 'bg-[#b23a48] hover:bg-[#8b2635]'} text-white font-bold py-3 px-6 rounded-lg transition-all cursor-pointer`}
                   >
                     Play Again
                   </button>
                   <button
                     onClick={goHome}
-                    className="bg-transparent border border-green-400 hover:bg-green-900/30 text-green-100 font-bold py-3 px-6 rounded-lg transition-all"
+                    className={`bg-transparent border ${gameResult === 'win' ? 'border-[#588157] hover:bg-[#588157]/10 text-[#588157]' : 'border-[#b23a48] hover:bg-[#b23a48]/10 text-[#b23a48]'} font-bold py-3 px-6 rounded-lg transition-all cursor-pointer`}
                   >
                     Back to Home
                   </button>

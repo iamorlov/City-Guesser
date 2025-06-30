@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Nunito_Sans } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.scss";
 
-const nunito = Nunito_Sans({
+const quicksand = Quicksand({
   subsets: ["latin"],
-  variable: "--nunito-sans",
+  variable: "--quicksand",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
 });
 
 
@@ -53,7 +53,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} antialiased`}
+        className={`${quicksand.variable} antialiased`}
       >
         {children}
       </body>

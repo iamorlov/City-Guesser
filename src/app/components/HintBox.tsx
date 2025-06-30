@@ -98,7 +98,7 @@ export default function HintBox({
         <button
           onClick={onRequestHint}
           disabled={!canRequestHint || loading}
-          className={`w-full py-3 px-4 rounded-lg flex items-center justify-center transition-all ${
+          className={`w-full py-3 px-4 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-sm ${
             canRequestHint 
               ? 'bg-[#588157] hover:bg-[#3a5a40] text-white' 
               : 'bg-slate-200/70 text-slate-400 cursor-not-allowed backdrop-blur-sm border border-slate-300/50'

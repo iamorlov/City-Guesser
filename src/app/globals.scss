@@ -1,9 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@use "tailwindcss";
 
 * {
-  font-family: var(--nunito-sans), sans-serif;
+  font-family: var(--quicksand), sans-serif;
 }
 
 /* Game-specific styles */

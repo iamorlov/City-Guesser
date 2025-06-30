@@ -18,16 +18,16 @@ export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
       <MapBackground />
-      <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[2.5rem] overflow-hidden bg-white/5 backdrop-blur-[2px]">
+      <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[5rem] overflow-hidden bg-white/5 backdrop-blur-[2px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="z-10"
         >
-          <h1 className="text-8xl md:text-9xl font-bold text-gray-800 mb-12 z-10 relative">
+          <h1 className="text-8xl md:text-9xl font-[500] text-gray-800 mb-12 z-10 relative">
             <span className="text-[#588157]">
-               Guess<span className="font-[800]">me</span>
+               Guess<span className="font-[700]">me</span>
             </span>
           </h1>
 
@@ -38,9 +38,9 @@ export default function Home() {
           <motion.button
             onClick={handleStart}
             disabled={isStarting}
-            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-5 px-16 rounded-full text-xl shadow-lg transition-all disabled:opacity-70 border border-green-500/30 z-10 relative"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-5 px-16 rounded-full text-xl shadow-lg transition-all disabled:opacity-70 border border-green-500/30 z-10 relative cursor-pointer"
+            whileHover={{ scale: 1.025 }}
+            whileTap={{ scale: 1 }}
           >
             {isStarting ? (
               <span className="flex items-center z-10 relative">
