@@ -245,7 +245,7 @@ export default function GamePage() {
                 animate={{ scale: 1, opacity: 1 }}
                 className="bg-white/95 backdrop-blur-md p-8 rounded-xl max-w-md mx-4 shadow-xl"
               >
-                <h2 className={`text-3xl font-bold mb-4 ${gameResult === 'win' ? 'text-[#588157]' : 'text-[#b23a48]'}`}>
+                <h2 className={`text-3xl font-bold mb-4 ${gameResult === 'win' ? 'text-[#588157]' : 'text-[#14213d]'}`}>
                   {gameResult === 'win' ? 'You Won! 🎉' : 'Game Over! ☹️'}
                 </h2>
                 
@@ -259,13 +259,13 @@ export default function GamePage() {
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <button
                     onClick={playAgain}
-                    className={`${gameResult === 'win' ? 'bg-[#588157] hover:bg-[#3a5a40]' : 'bg-[#b23a48] hover:bg-[#8b2635]'} text-white font-bold py-3 px-6 rounded-lg transition-all cursor-pointer`}
+                    className="bg-[#588157] hover:bg-[#3a5a40] text-white font-bold py-3 px-6 rounded-lg transition-all cursor-pointer"
                   >
                     Play Again
                   </button>
                   <button
                     onClick={goHome}
-                    className={`bg-transparent border ${gameResult === 'win' ? 'border-[#588157] hover:bg-[#588157]/10 text-[#588157]' : 'border-[#b23a48] hover:bg-[#b23a48]/10 text-[#b23a48]'} font-bold py-3 px-6 rounded-lg transition-all cursor-pointer`}
+                    className="bg-transparent border border-[#588157] hover:bg-[#588157]/10 text-[#588157] font-bold py-3 px-6 rounded-lg transition-all cursor-pointer"
                   >
                     Back to Home
                   </button>

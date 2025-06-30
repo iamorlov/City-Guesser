@@ -35,9 +35,8 @@ export async function initializeGame(): Promise<City> {
         },
         { 
           role: "user", 
-          content: `Select any big city from anywhere in the world for a geography guessing game,
-          but do not use the most famous cities like New York, London, or Paris.
-          The city should be well-known and have a population over 250,000.
+          content: `Create a list of 1,000 popular cities from ANY country in the world, and randomly select one city from it.
+          The city should be at least somewhat well-known.
           Respond in valid JSON format only with this exact structure:
           {"name": "CityName", "lat": latitude, "lng": longitude}
           

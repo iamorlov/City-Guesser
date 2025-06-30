@@ -36,7 +36,7 @@ export default function HintBox({
   // Function to determine button text based on hint count
   const getButtonText = () => {
     if (!canRequestHint) {
-      return `Not enough points (${points}/${hintCost})`;
+      return `Not enough hints (${points}/${hintCost})`;
     }
     
     // Use hint count to determine text
