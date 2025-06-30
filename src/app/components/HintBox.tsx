@@ -48,7 +48,7 @@ export default function HintBox({
   };
   
   return (
-    <div className="bg-[#E4EFE7] p-5 rounded-xl flex flex-col h-full max-h-screen">
+    <div className="bg-[#E4EFE7] p-5 pr-0 rounded-xl flex flex-col h-full max-h-screen">
       <div className="backdrop-blur-md flex flex-col h-full rounded-lg overflow-hidden">
         <div className="flex px-5 text-[#588157] text-5xl">
           Guess<span className="font-[800]">me</span>

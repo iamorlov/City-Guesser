@@ -51,7 +51,7 @@ export default function GamePage() {
     setLoading(true);
     try {
       setPoints(prev => prev - hintCost);
-      const newHint = await getHint(hintCount + 1, targetCity?.name || '');
+      const newHint = await getHint(hintCount + 1, targetCity?.name || '', hints);
       setHints(prev => [...prev, newHint]);
       setHintCount(prev => prev + 1);
     } catch (error) {

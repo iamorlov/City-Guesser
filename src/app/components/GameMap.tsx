@@ -36,8 +36,6 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
     // Only add click handler if map is initialized and game is not over
     if (!mapInitialized || gameOver || !googleMapRef.current) return;
     
-    console.log("Setting up map click listener");
-    
     // Remove any existing click listener
     if (clickListenerRef.current) {
       google.maps.event.removeListener(clickListenerRef.current);
@@ -46,17 +44,14 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
     
     // Add the click listener
     clickListenerRef.current = googleMapRef.current.addListener('click', (e: google.maps.MapMouseEvent) => {
-      console.log("Map clicked!", e.latLng?.lat(), e.latLng?.lng());
       const latLng = e.latLng;
       if (!latLng) return;
       
       try {
         // Update existing marker or create a new one
         if (markerRef.current) {
-          console.log("Updating existing marker");
           markerRef.current.setPosition(latLng);
         } else {
-          console.log("Creating new marker");
           const newMarker = new google.maps.Marker({
             position: latLng,
             map: googleMapRef.current,
@@ -98,7 +93,6 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
     
     const initMap = async () => {
       try {
-        console.log("Initializing map...");
         const { Map } = await loader.importLibrary('maps') as google.maps.MapsLibrary;
         
         // Create the map instance
@@ -127,7 +121,6 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
         // Store map in ref, not state
         googleMapRef.current = mapInstance;
         setMapInitialized(true);
-        console.log("Map initialized successfully");
       } catch (error) {
         console.error('Error loading Google Maps:', error);
       }
@@ -143,8 +136,6 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
     
     const showCorrectCity = async () => {
       try {
-        console.log("Showing correct city:", revealCity.name);
-        
         // Clean up existing marker
         if (markerRef.current) {
           markerRef.current.setMap(null);
@@ -190,7 +181,6 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
   // Reset/cleanup on unmount
   useEffect(() => {
     return () => {
-      console.log("Cleaning up map component");
       if (clickListenerRef.current) {
         google.maps.event.removeListener(clickListenerRef.current);
       }

@@ -8,11 +8,15 @@ const getGrokClient = () => {
   });
 };
 
-export async function getHint(hintNumber: number, cityName: string): Promise<string> {
+export async function getHint(hintNumber: number, cityName: string, previousHints: string[] = []): Promise<string> {
   try {
     const client = getGrokClient();
 
     // Create a prompt for Grok that asks for an appropriate hint
+    const previousHintsText = previousHints.length > 0 
+      ? `\n\nPrevious hints already given:\n${previousHints.map((hint, index) => `${index + 1}. ${hint}`).join('\n')}`
+      : '';
+
     const prompt = `
       You are helping with a geography guessing game. The player needs to guess the city: ${cityName}.
       
@@ -24,11 +28,12 @@ export async function getHint(hintNumber: number, cityName: string): Promise<str
       and ending with more detailed or well-known information. It can be anything: a historical fact, famous buildings,
       climate, cuisine... The main thing is to follow the rule: start with difficult clues and then move on to easier ones.
       For clue #9, provide the country where the city is located, as well as the number of letters in the city's name,
-      and for the last clue, #10, reveal the name of the city, where a random third of the letters are replaced with the symbol “*”.
+      and for the last clue, #10, reveal the name of the city, where a random third of the letters are replaced with the symbol "*".
       The most important thing is that all clues must be true.
       Also, try to make the clues interesting and detailed.
       You can give several facts in one clue, as long as they are of equal difficulty.
-      Don't repeat hints, don't send similar facts!
+      
+      IMPORTANT: Do not repeat any information from the previous hints listed below. Make sure your new hint provides completely different facts and aspects about the city.${previousHintsText}
       
       Respond with ONLY the hint text, nothing else.
     `;

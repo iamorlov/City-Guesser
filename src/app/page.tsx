@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
       <MapBackground />
-      <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[5rem] overflow-hidden bg-white/5 backdrop-blur-[2px]">
+      <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[7rem] overflow-hidden bg-white/5 backdrop-blur-[3px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
