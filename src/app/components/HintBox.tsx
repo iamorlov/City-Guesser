@@ -9,7 +9,6 @@ interface HintBoxProps {
   points: number;
   onRequestHint: () => void;
   loading: boolean;
-  gameTitle: string;
 }
 
 export default function HintBox({ 
@@ -18,7 +17,6 @@ export default function HintBox({
   points, 
   onRequestHint, 
   loading,
-  gameTitle
 }: HintBoxProps) {
   // Create a ref for the scrollable container
   const hintsContainerRef = useRef<HTMLDivElement>(null);

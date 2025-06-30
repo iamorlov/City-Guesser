@@ -170,7 +170,6 @@ export default function GamePage() {
                 points={points}
                 onRequestHint={requestHint}
                 loading={loading}
-                gameTitle="City Guesser"
               />
             </motion.div>
           </div>
