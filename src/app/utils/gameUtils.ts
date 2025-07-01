@@ -16,27 +16,32 @@ export interface City {
   lng: number;
 }
 
-// Fallback cities in case API fails
-const fallbackCities: City[] = [
-  { name: "Prague", lat: 50.0755, lng: 14.4378 },
-];
+// Define Difficulty type
+export type Difficulty = 'easy' | 'medium' | 'hard';
 
-export async function initializeGame(): Promise<City> {
+export async function initializeGame(difficulty: Difficulty = 'medium'): Promise<City> {
   try {
     const client = getGrokClient();
-    
-    // Ask Grok to select a well-known city
+
+    // Create difficulty-specific prompts
+    const difficultyPrompts = {
+      easy: "Create a list of 300 world capital cities (only national capitals like London, Paris, Berlin, Tokyo, Washington D.C., etc.), and randomly select one city from it.",
+      medium: "Create a list of 600 well-known cities from around the world, WITHOUT CAPITAL CITIES (major cities that most people would recognize like New York, Barcelona, Sydney, Prague, etc.), and randomly select one city from it.",
+      hard: "Create a list of 1,000 cities from ANY country in the world, including smaller cities and towns that are not necessarily well-known internationally, and randomly select one city from it. DO NOT INCLUDE CAPITAL CITIES OR VERY WELL KNOWN BIG CITIES in this list.",
+    };
+
+    // Ask Grok to select a city based on difficulty
     const completion = await client.chat.completions.create({
       model: "grok-3-mini",
       messages: [
-        { 
-          role: "system", 
-          content: "You are a geography expert selecting cities for a guessing game." 
+        {
+          role: "system",
+          content: "You are a geography expert selecting cities for a guessing game."
         },
-        { 
-          role: "user", 
-          content: `Create a list of 1,000 popular cities from ANY country in the world, and randomly select one city from it.
-          The city should be at least somewhat well-known.
+        {
+          role: "user",
+          content: `${difficultyPrompts[difficulty]}
+          The city should be appropriate for the ${difficulty} difficulty level.
           Respond in valid JSON format only with this exact structure:
           {"name": "CityName", "lat": latitude, "lng": longitude}
           
@@ -46,22 +51,17 @@ export async function initializeGame(): Promise<City> {
       response_format: { type: "json_object" },
       temperature: 0.7,
     });
-    
+
     const responseText = completion.choices[0]?.message?.content;
     if (!responseText) {
       throw new Error('No response from Grok');
     }
-    
+
     const cityData = JSON.parse(responseText) as City;
-    
+
     return cityData;
   } catch (error) {
     console.error('Error getting city from Grok:', error);
-    
-    // Fallback to predefined list if the API call fails
-    const randomIndex = Math.floor(Math.random() * fallbackCities.length);
-    const fallbackCity = fallbackCities[randomIndex];
-    
-    return fallbackCity;
+    throw new Error('Failed to initialize game. Please try again later.');
   }
 }

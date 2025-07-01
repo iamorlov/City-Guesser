@@ -22,6 +22,16 @@ export const ru: TranslationKeys = {
   start: "Начать игру",
   starting: "Запуск...",
   
+  // Difficulty selection
+  selectDifficulty: "Выберите сложность",
+  selectDifficultyRequired: "Пожалуйста, выберите сложность для начала",
+  easy: "Легко",
+  medium: "Средне",
+  hard: "Сложно",
+  easyDescription: "Только столицы",
+  mediumDescription: "Известные города",
+  hardDescription: "Любые города мира",
+  
   // Game page
   cityName: "Название города",
   enterCityName: "Введите название города...",
@@ -37,6 +47,7 @@ export const ru: TranslationKeys = {
   playAgain: "Играть снова",
   backToHome: "Вернуться домой",
   initializingGame: "Инициализация игры...",
+  difficultyLevel: "Сложность:",
   
   // Common
   points: "очков",

@@ -6,14 +6,20 @@ import { motion } from "framer-motion";
 import MapBackground from "./components/MapBackground";
 import { useLocale } from "../i18n/LocaleProvider";
 import LanguageSelector from "./components/LanguageSelector";
+import DifficultySelect, { Difficulty } from "./components/DifficultySelect";
 
 export default function Home() {
   const [isStarting, setIsStarting] = useState(false);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>('medium');
   const router = useRouter();
   const { t } = useLocale();
 
   const handleStart = () => {
+    if (!selectedDifficulty) return;
+    
     setIsStarting(true);
+    // Store difficulty in localStorage to pass to game page
+    localStorage.setItem('selectedDifficulty', selectedDifficulty);
     // Add a small delay for animation
     setTimeout(() => router.push("/game"), 300);
   };
@@ -27,7 +33,7 @@ export default function Home() {
         <LanguageSelector />
       </div>
       
-      <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[7rem] overflow-hidden bg-white/5 backdrop-blur-[3px]">
+      <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[7rem] bg-white/5 backdrop-blur-[3px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,16 +46,28 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-600 mb-12 z-10 relative font-semibold">
+          <p className="text-lg md:text-xl text-gray-600 mb-8 z-10 relative font-semibold">
             {t.tagline}
           </p>
 
+          {/* Difficulty Selection */}
+          <div className="mb-8 z-10 relative">
+            <DifficultySelect
+              selectedDifficulty={selectedDifficulty}
+              onDifficultySelect={setSelectedDifficulty}
+            />
+          </div>
+
           <motion.button
             onClick={handleStart}
-            disabled={isStarting}
-            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-5 px-16 rounded-full text-xl shadow-lg transition-all disabled:opacity-70 border border-green-500/30 z-10 relative cursor-pointer"
-            whileHover={{ scale: 1.025 }}
-            whileTap={{ scale: 1 }}
+            disabled={isStarting || !selectedDifficulty}
+            className={`font-bold py-5 px-16 rounded-full text-xl transition-all ${
+              selectedDifficulty
+                ? 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg cursor-pointer'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            } ${isStarting ? 'opacity-70' : ''}`}
+            whileHover={selectedDifficulty ? { scale: 1.025 } : {}}
+            whileTap={selectedDifficulty ? { scale: 1 } : {}}
           >
             {isStarting ? (
               <span className="flex items-center z-10 relative">

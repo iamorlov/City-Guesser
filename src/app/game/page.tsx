@@ -6,8 +6,9 @@ import { motion } from 'framer-motion';
 import GameMap from '../components/GameMap';
 import HintBox from '../components/HintBox';
 import { getHint } from '../utils/grokClient';
-import { initializeGame } from '../utils/gameUtils';
+import { initializeGame, Difficulty } from '../utils/gameUtils';
 import { useLocale } from '../../i18n/LocaleProvider';
+import DifficultySelect from '../components/DifficultySelect';
 
 interface City {
   name: string;
@@ -19,6 +20,7 @@ export default function GamePage() {
   const router = useRouter();
   const { t } = useLocale();
   const [gameStarted, setGameStarted] = useState(false);
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
   const [points, setPoints] = useState(70);
   const [hints, setHints] = useState<string[]>([]);
   const [hintCount, setHintCount] = useState(0);
@@ -30,21 +32,29 @@ export default function GamePage() {
   const [gameResult, setGameResult] = useState<'win' | 'lose' | null>(null);
   
   useEffect(() => {
-    const startGame = async () => {
-      setLoading(true);
-      try {
-        const city = await initializeGame();
-        setTargetCity(city);
-        setGameStarted(true);
-      } catch (error) {
-        console.error('Failed to start game:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    startGame();
+    // Check if difficulty was set from home page
+    const storedDifficulty = localStorage.getItem('selectedDifficulty') as Difficulty;
+    if (storedDifficulty) {
+      setDifficulty(storedDifficulty);
+      // Clear from localStorage after using
+      localStorage.removeItem('selectedDifficulty');
+      // Start the game with the selected difficulty
+      startGame(storedDifficulty);
+    }
   }, []);
+  
+  const startGame = async (selectedDifficulty: Difficulty) => {
+    setLoading(true);
+    try {
+      const city = await initializeGame(selectedDifficulty);
+      setTargetCity(city);
+      setGameStarted(true);
+    } catch (error) {
+      console.error('Failed to start game:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   
   const requestHint = async () => {
     const hintCost = hintCount >= 3 ? 10 : 0;
@@ -134,20 +144,9 @@ export default function GamePage() {
     setGameOver(false);
     setGameResult(null);
     
-    const startNewGame = async () => {
-      setLoading(true);
-      try {
-        const city = await initializeGame();
-        setTargetCity(city);
-        setGameStarted(true);
-      } catch (error) {
-        console.error('Failed to start new game:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    startNewGame();
+    if (difficulty) {
+      startGame(difficulty);
+    }
   };
   
   const goHome = () => {
@@ -172,6 +171,7 @@ export default function GamePage() {
                 points={points}
                 onRequestHint={requestHint}
                 loading={loading}
+                difficulty={difficulty || undefined}
               />
             </motion.div>
           </div>
@@ -278,10 +278,31 @@ export default function GamePage() {
         </>
       ) : (
         <div className="absolute inset-0 flex justify-center items-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-700 mx-auto mb-6"></div>
-            <p className="text-[#588157] text-xl">{t.initializingGame}</p>
-          </div>
+          {difficulty === null ? (
+            // Show difficulty selection if no difficulty was set
+            <div className="text-center bg-white/90 backdrop-blur-sm p-8 rounded-xl max-w-md mx-4 shadow-xl">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">{t.selectDifficulty}</h2>
+              <DifficultySelect
+                selectedDifficulty={null}
+                onDifficultySelect={(selectedDifficulty) => {
+                  setDifficulty(selectedDifficulty);
+                  startGame(selectedDifficulty);
+                }}
+              />
+              <button
+                onClick={() => router.push('/')}
+                className="mt-6 text-[#588157] hover:text-[#3a5a40] underline transition-colors"
+              >
+                {t.backToHome}
+              </button>
+            </div>
+          ) : (
+            // Show loading spinner when game is initializing
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-700 mx-auto mb-6"></div>
+              <p className="text-[#588157] text-xl">{t.initializingGame}</p>
+            </div>
+          )}
         </div>
       )}
     </main>

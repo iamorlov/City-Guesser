@@ -20,6 +20,16 @@ export const en = {
   start: "Start Game",
   starting: "Starting...",
   
+  // Difficulty selection
+  selectDifficulty: "Select Difficulty",
+  selectDifficultyRequired: "Please select a difficulty to start",
+  easy: "Easy",
+  medium: "Medium",
+  hard: "Hard",
+  easyDescription: "Capital cities only",
+  mediumDescription: "Well-known cities",
+  hardDescription: "Any cities worldwide",
+  
   // Game page
   cityName: "City Name",
   enterCityName: "Enter city name...",
@@ -35,6 +45,7 @@ export const en = {
   playAgain: "Play Again",
   backToHome: "Back to Home",
   initializingGame: "Initializing game...",
+  difficultyLevel: "Difficulty:",
   
   // Common
   points: "points",
