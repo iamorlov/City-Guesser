@@ -2,6 +2,8 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef } from 'react';
+import { useLocale } from '../../i18n/LocaleProvider';
+import LanguageSelector from './LanguageSelector';
 
 interface HintBoxProps {
   hints: string[];
@@ -18,6 +20,7 @@ export default function HintBox({
   onRequestHint, 
   loading,
 }: HintBoxProps) {
+  const { t } = useLocale();
   // Create a ref for the scrollable container
   const hintsContainerRef = useRef<HTMLDivElement>(null);
   
@@ -36,14 +39,14 @@ export default function HintBox({
   // Function to determine button text based on hint count
   const getButtonText = () => {
     if (!canRequestHint) {
-      return `Not enough hints (${points}/${hintCost})`;
+      return `${t.notEnoughHints} (${points}/${hintCost})`;
     }
     
     // Use hint count to determine text
     if (hintCount === 0) {
-      return "Let's play!";
+      return t.letsPlay;
     } else {
-      return "Next hint!";
+      return t.nextHint;
     }
   };
   
@@ -51,7 +54,7 @@ export default function HintBox({
     <div className="bg-[#E4EFE7] p-5 pr-0 rounded-xl flex flex-col h-full max-h-screen">
       <div className="backdrop-blur-md flex flex-col h-full rounded-lg overflow-hidden">
         <div className="flex px-5 text-[#588157] text-5xl">
-          Guess<span className="font-[800]">me</span>
+          {t.title}<span className="font-[800]">{t.titleBold}</span>
         </div>
       
       <div 
@@ -60,8 +63,9 @@ export default function HintBox({
       >
         <div className="flex justify-between items-center mb-6 flex-shrink-0">
           <h2 className="text-xl font-bold text-slate-700">
-            Hints {hintCount > 0 && <span className="text-gray-400">({hintCount}/10)</span>}
+            {t.hints} {hintCount > 0 && <span className="text-gray-400">({hintCount}/10)</span>}
           </h2>
+          <LanguageSelector />
         </div>
         
         {/* Hints container with ref for scrolling */}
@@ -69,7 +73,7 @@ export default function HintBox({
           {hints.length === 0 ? (
             <div className="flex items-center justify-center h-full min-h-[200px]">
               <p className="text-slate-500 italic text-center px-4 py-8 bg-slate-50/70 backdrop-blur-sm rounded-lg">
-                Hints will appear here as you request them
+                {t.hintsWillAppear}
               </p>
             </div>
           ) : (
@@ -84,7 +88,7 @@ export default function HintBox({
                 >
                   <p className="text-slate-700">{hint}</p>
                   <div className="text-xs text-slate-500 mt-2 flex items-center">
-                    <span className="bg-slate-200/70 backdrop-blur-sm px-2 py-1 rounded-md">Hint #{index + 1}</span>
+                    <span className="bg-slate-200/70 backdrop-blur-sm px-2 py-1 rounded-md">{t.hintNumber}{index + 1}</span>
                   </div>
                 </motion.div>
               ))}
@@ -110,7 +114,7 @@ export default function HintBox({
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Getting hint...
+              {t.gettingHint}
             </span>
           ) : (
             <span>

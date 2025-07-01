@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.scss";
+import { LocaleProvider } from "../i18n/LocaleProvider";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
@@ -55,7 +56,9 @@ export default function RootLayout({
       <body
         className={`${quicksand.variable} antialiased`}
       >
-        {children}
+        <LocaleProvider>
+          {children}
+        </LocaleProvider>
       </body>
     </html>
   );

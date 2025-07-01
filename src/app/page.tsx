@@ -4,10 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import MapBackground from "./components/MapBackground";
+import { useLocale } from "../i18n/LocaleProvider";
+import LanguageSelector from "./components/LanguageSelector";
 
 export default function Home() {
   const [isStarting, setIsStarting] = useState(false);
   const router = useRouter();
+  const { t } = useLocale();
 
   const handleStart = () => {
     setIsStarting(true);
@@ -18,6 +21,12 @@ export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
       <MapBackground />
+      
+      {/* Language selector positioned in top right */}
+      <div className="absolute top-6 right-6 z-20">
+        <LanguageSelector />
+      </div>
+      
       <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[7rem] overflow-hidden bg-white/5 backdrop-blur-[3px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -27,12 +36,12 @@ export default function Home() {
         >
           <h1 className="text-8xl md:text-9xl font-[500] text-gray-800 mb-12 z-10 relative">
             <span className="text-[#588157]">
-               Guess<span className="font-[700]">me</span>
+               {t.title}<span className="font-[700]">{t.titleBold}</span>
             </span>
           </h1>
 
           <p className="text-lg md:text-xl text-gray-600 mb-12 z-10 relative font-semibold">
-            Test your geography knowledge!
+            {t.tagline}
           </p>
 
           <motion.button
@@ -64,10 +73,10 @@ export default function Home() {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
-                Starting Game...
+                {t.starting}
               </span>
             ) : (
-              "Start Game"
+              t.start
             )}
           </motion.button>
         </motion.div>

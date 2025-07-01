@@ -7,6 +7,7 @@ import GameMap from '../components/GameMap';
 import HintBox from '../components/HintBox';
 import { getHint } from '../utils/grokClient';
 import { initializeGame } from '../utils/gameUtils';
+import { useLocale } from '../../i18n/LocaleProvider';
 
 interface City {
   name: string;
@@ -16,6 +17,7 @@ interface City {
 
 export default function GamePage() {
   const router = useRouter();
+  const { t } = useLocale();
   const [gameStarted, setGameStarted] = useState(false);
   const [points, setPoints] = useState(70);
   const [hints, setHints] = useState<string[]>([]);
@@ -197,7 +199,7 @@ export default function GamePage() {
                       <div className="flex items-center gap-3">
                         <div className="flex-grow">
                           <label htmlFor="cityInput" className="text-gray-700 text-sm mb-1.5 block font-medium">
-                            City Name
+                            {t.cityName}
                           </label>
                           <div className="relative">
                             <input
@@ -205,12 +207,12 @@ export default function GamePage() {
                               type="text"
                               value={manualCityInput}
                               onChange={handleManualInputChange}
-                              placeholder="Enter city name..."
+                              placeholder={t.enterCityName}
                               className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-800 border border-gray-500/50 focus:border-[#588157] focus:outline-none text-base placeholder-gray-500"
                             />
                             {selectedCity && manualCityInput !== selectedCity && (
                               <p className="absolute -bottom-6 left-0 text-xs text-gray-600 mt-1">
-                                Different from map selection: <span className="font-medium">{selectedCity}</span>
+                                {t.differentFromMap} <span className="font-medium">{selectedCity}</span>
                               </p>
                             )}
                           </div>
@@ -222,13 +224,13 @@ export default function GamePage() {
                             disabled={(!manualCityInput && !selectedCity) || !targetCity}
                             className="h-12 bg-[#588157] hover:bg-[#3a5a40] text-white px-6 rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all whitespace-nowrap cursor-pointer"
                           >
-                            {!targetCity ? "Start Game First" : "Submit Guess"}
+                            {!targetCity ? t.startGameFirst : t.submitGuess}
                           </button>
                         </div>
                       </div>
                       
                       <p className="text-gray-500 text-xs text-center italic mt-1">
-                        Write city name or find it on the map
+                        {t.writeCityOrMap}
                       </p>
                     </div>
                   </motion.div>
@@ -246,13 +248,13 @@ export default function GamePage() {
                 className="bg-white/95 backdrop-blur-md p-8 rounded-xl max-w-md mx-4 shadow-xl"
               >
                 <h2 className={`text-3xl font-bold mb-4 ${gameResult === 'win' ? 'text-[#588157]' : 'text-[#14213d]'}`}>
-                  {gameResult === 'win' ? 'You Won! 🎉' : 'Game Over! ☹️'}
+                  {gameResult === 'win' ? t.youWon : t.gameOver}
                 </h2>
                 
                 <p className="text-gray-600 text-lg mb-8">
                   {gameResult === 'win' 
-                    ? `Congratulations! You correctly identified ${targetCity?.name}!` 
-                    : `The city was ${targetCity?.name}. Better luck next time!`
+                    ? `${t.congratulations} ${targetCity?.name}!` 
+                    : `${t.cityWas} ${targetCity?.name}. ${t.betterLuck}`
                   }
                 </p>
                 
@@ -261,13 +263,13 @@ export default function GamePage() {
                     onClick={playAgain}
                     className="bg-[#588157] hover:bg-[#3a5a40] text-white font-bold py-3 px-6 rounded-lg transition-all cursor-pointer"
                   >
-                    Play Again
+                    {t.playAgain}
                   </button>
                   <button
                     onClick={goHome}
                     className="bg-transparent border border-[#588157] hover:bg-[#588157]/10 text-[#588157] font-bold py-3 px-6 rounded-lg transition-all cursor-pointer"
                   >
-                    Back to Home
+                    {t.backToHome}
                   </button>
                 </div>
               </motion.div>
@@ -278,7 +280,7 @@ export default function GamePage() {
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-700 mx-auto mb-6"></div>
-            <p className="text-[#588157] text-xl">Initializing game...</p>
+            <p className="text-[#588157] text-xl">{t.initializingGame}</p>
           </div>
         </div>
       )}
