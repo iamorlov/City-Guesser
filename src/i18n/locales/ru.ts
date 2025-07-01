@@ -2,8 +2,8 @@ import { TranslationKeys } from './en';
 
 export const ru: TranslationKeys = {
   // HintBox translations
-  title: "Угадай",
-  titleBold: "ка",
+  title: "Guess",
+  titleBold: "me",
   hints: "Подсказки",
   hintsWillAppear: "Подсказки будут появляться здесь по мере их запроса",
   letsPlay: "Давайте играть!",
@@ -14,8 +14,8 @@ export const ru: TranslationKeys = {
   
   // Language selector
   language: "Язык",
-  english: "English",
-  russian: "Русский",
+  english: "EN",
+  russian: "RU",
   
   // Home page
   tagline: "Проверьте свои знания географии!",

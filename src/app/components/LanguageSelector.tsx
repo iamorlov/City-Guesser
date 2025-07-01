@@ -34,7 +34,7 @@ export default function LanguageSelector() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-600 hover:text-slate-800 transition-colors bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:bg-white/20"
+        className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-600 hover:text-slate-800 transition-colors bg-white/15 backdrop-blur-sm rounded-lg hover:bg-white/20 cursor-pointer"
       >
         <svg
           className="w-4 h-4"
@@ -68,7 +68,7 @@ export default function LanguageSelector() {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 bg-white/90 backdrop-blur-sm border border-slate-200/50 rounded-lg shadow-lg z-50 min-w-[120px]">
+        <div className="absolute top-full right-0 mt-1 bg-white/90 backdrop-blur-sm border border-slate-200/50 rounded-lg shadow-lg z-50">
           {languages.map((language) => (
             <button
               key={language.code}
@@ -76,7 +76,7 @@ export default function LanguageSelector() {
                 setLocale(language.code);
                 setIsOpen(false);
               }}
-              className={`w-full text-left px-3 py-2 text-sm hover:bg-slate-100 transition-colors first:rounded-t-lg last:rounded-b-lg ${
+              className={`w-full px-3 py-2 text-sm hover:bg-slate-100 transition-colors first:rounded-t-lg last:rounded-b-lg cursor-pointer ${
                 locale === language.code ? 'bg-slate-50 text-[#588157]' : 'text-slate-700'
               }`}
             >

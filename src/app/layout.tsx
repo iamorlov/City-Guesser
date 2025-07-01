@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Quicksand } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.scss";
 import { LocaleProvider } from "../i18n/LocaleProvider";
 
-const quicksand = Quicksand({
+const montserratFont = Montserrat({
   subsets: ["latin"],
-  variable: "--quicksand",
+  variable: "--font-montserrat",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 
@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${quicksand.variable} antialiased`}
+        className={`${montserratFont.variable} antialiased`}
       >
         <LocaleProvider>
           {children}

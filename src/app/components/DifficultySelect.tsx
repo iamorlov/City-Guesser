@@ -61,7 +61,7 @@ export default function DifficultySelect({ selectedDifficulty, onDifficultySelec
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full bg-white/90 backdrop-blur-sm rounded-full px-8 py-3 text-left focus:outline-none transition-all cursor-pointer"
+          className="w-full bg-white/90 backdrop-blur-sm rounded-full px-8 py-3 text-left focus:outline-none transition-all cursor-pointer hover:shadow-sm"
         >
           <div className="flex items-center justify-between">
             {selectedOption ? (
@@ -92,7 +92,7 @@ export default function DifficultySelect({ selectedDifficulty, onDifficultySelec
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute top-full left-0 right-0 mt-1 bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg z-50 cursor-pointer"
+              className="absolute top-full left-0 right-0 mt-1 bg-white/95 backdrop-blur-sm rounded-3xl shadow-sm z-50 cursor-pointer"
             >
               {difficulties.map((difficulty) => (
                 <button

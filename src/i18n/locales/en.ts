@@ -12,8 +12,8 @@ export const en = {
   
   // Language selector
   language: "Language",
-  english: "English",
-  russian: "Русский",
+  english: "EN",
+  russian: "RU",
   
   // Home page
   tagline: "Test your geography knowledge!",
