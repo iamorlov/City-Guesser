@@ -9,6 +9,7 @@ import { getHint } from '../utils/grokClient';
 import { initializeGame, Difficulty } from '../utils/gameUtils';
 import { useLocale } from '../../i18n/LocaleProvider';
 import DifficultySelect from '../components/DifficultySelect';
+import MapBackground from '../components/MapBackground';
 
 interface City {
   name: string;
@@ -30,7 +31,7 @@ export default function GamePage() {
   const [targetCity, setTargetCity] = useState<City | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [gameResult, setGameResult] = useState<'win' | 'lose' | null>(null);
-  
+
   useEffect(() => {
     // Check if difficulty was set from home page
     const storedDifficulty = localStorage.getItem('selectedDifficulty') as Difficulty;
@@ -42,7 +43,7 @@ export default function GamePage() {
       startGame(storedDifficulty);
     }
   }, []);
-  
+
   const startGame = async (selectedDifficulty: Difficulty) => {
     setLoading(true);
     try {
@@ -55,11 +56,11 @@ export default function GamePage() {
       setLoading(false);
     }
   };
-  
+
   const requestHint = async () => {
     const hintCost = hintCount >= 3 ? 10 : 0;
     if (points < hintCost) return;
-    
+
     setLoading(true);
     try {
       setPoints(prev => prev - hintCost);
@@ -71,18 +72,18 @@ export default function GamePage() {
     } finally {
       setLoading(false);
     }
-    
+
     if (points - hintCost < 0) {
       endGame('lose');
     }
   };
-  
+
   const handleMarkerPlaced = (lat: number, lng: number) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`)
       .then(res => res.json())
       .then(data => {
         let city = '';
-        
+
         for (const result of data.results) {
           for (const component of result.address_components) {
             if (component.types.includes('locality')) {
@@ -92,7 +93,7 @@ export default function GamePage() {
           }
           if (city) break;
         }
-        
+
         setSelectedCity(city);
         setManualCityInput(city);
       })
@@ -100,38 +101,38 @@ export default function GamePage() {
         console.error('Error getting city name:', err);
       });
   };
-  
+
   const handleManualInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setManualCityInput(e.target.value);
     if (e.target.value !== selectedCity) {
       setSelectedCity('');
     }
   };
-  
+
   const submitGuess = () => {
     const guessCity = manualCityInput || selectedCity;
-    
+
     if (!guessCity || !targetCity) return;
-    
+
     const isCorrect = guessCity.trim().toLowerCase() === targetCity.name.trim().toLowerCase();
-    
+
     if (isCorrect) {
       endGame('win');
     } else {
       const newPoints = points - 20;
       setPoints(newPoints);
-      
+
       if (newPoints <= 0) {
         endGame('lose');
       }
     }
   };
-  
+
   const endGame = (result: 'win' | 'lose') => {
     setGameOver(true);
     setGameResult(result);
   };
-  
+
   const playAgain = () => {
     setGameStarted(false);
     setPoints(70);
@@ -143,29 +144,29 @@ export default function GamePage() {
     setTargetCity(null);
     setGameOver(false);
     setGameResult(null);
-    
+
     if (difficulty) {
       startGame(difficulty);
     }
   };
-  
+
   const goHome = () => {
     router.push('/');
   };
-  
+
   return (
-    <main className="h-screen w-screen bg-[#E4EFE7] flex">
+    <main className={`h-screen w-screen flex ${difficulty !== null ? 'bg-[#E4EFE7]' : ''}`}>
       {gameStarted ? (
         <>
           {/* Chat Sidebar - Fixed width */}
-          <div className="min-w-96 w-96 h-full flex-shrink-0">
+          <div className="min-w-108 w-108 h-full flex-shrink-0">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
               className="h-full flex flex-col"
             >
-              <HintBox 
+              <HintBox
                 hints={hints}
                 hintCount={hintCount}
                 points={points}
@@ -179,16 +180,16 @@ export default function GamePage() {
           {/* Map Area - Takes remaining space */}
           <div className="flex-1 h-full p-6 relative">
             <div className="w-full h-full rounded-2xl overflow-hidden relative shadow-sm">
-              <GameMap 
+              <GameMap
                 onMarkerPlaced={handleMarkerPlaced}
                 revealCity={gameOver ? (targetCity || undefined) : undefined}
                 gameOver={gameOver}
               />
-              
+
               {/* Input field at bottom center of map */}
               {!gameOver && (
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-2xl px-4">
-                  <motion.div 
+                  <motion.div
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.5 }}
@@ -217,7 +218,7 @@ export default function GamePage() {
                             )}
                           </div>
                         </div>
-                        
+
                         <div className="pt-7">
                           <button
                             onClick={submitGuess}
@@ -228,7 +229,7 @@ export default function GamePage() {
                           </button>
                         </div>
                       </div>
-                      
+
                       <p className="text-gray-500 text-xs text-center italic mt-1">
                         {t.writeCityOrMap}
                       </p>
@@ -242,7 +243,7 @@ export default function GamePage() {
           {/* Game Over Modal */}
           {gameOver && (
             <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 className="bg-white/95 backdrop-blur-md p-8 rounded-xl max-w-md mx-4 shadow-xl"
@@ -250,14 +251,14 @@ export default function GamePage() {
                 <h2 className={`text-3xl font-bold mb-4 ${gameResult === 'win' ? 'text-[#588157]' : 'text-[#14213d]'}`}>
                   {gameResult === 'win' ? t.youWon : t.gameOver}
                 </h2>
-                
+
                 <p className="text-gray-600 text-lg mb-8">
-                  {gameResult === 'win' 
-                    ? `${t.congratulations} ${targetCity?.name}!` 
+                  {gameResult === 'win'
+                    ? `${t.congratulations} ${targetCity?.name}!`
                     : `${t.cityWas} ${targetCity?.name}. ${t.betterLuck}`
                   }
                 </p>
-                
+
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <button
                     onClick={playAgain}
@@ -279,23 +280,25 @@ export default function GamePage() {
       ) : (
         <div className="absolute inset-0 flex justify-center items-center">
           {difficulty === null ? (
-            // Show difficulty selection if no difficulty was set
-            <div className="text-center bg-white/90 backdrop-blur-sm p-8 rounded-xl max-w-md mx-4 shadow-xl">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">{t.selectDifficulty}</h2>
-              <DifficultySelect
-                selectedDifficulty={null}
-                onDifficultySelect={(selectedDifficulty) => {
-                  setDifficulty(selectedDifficulty);
-                  startGame(selectedDifficulty);
-                }}
-              />
-              <button
-                onClick={() => router.push('/')}
-                className="mt-6 text-[#588157] hover:text-[#3a5a40] underline transition-colors"
-              >
-                {t.backToHome}
-              </button>
-            </div>
+            <>
+              <MapBackground />
+
+              <div className="text-center p-8 w-lg max-w-xl mx-4 rounded-[4rem] bg-white/5 backdrop-blur-[3px]">
+                <h2 className="text-2xl font-bold text-[#588157] mb-6">{t.selectDifficultyRequired}</h2>
+                <DifficultySelect
+                  selectedDifficulty={null}
+                  onDifficultySelect={(selectedDifficulty) => {
+                    setDifficulty(selectedDifficulty);
+                    startGame(selectedDifficulty);
+                  }}
+                />
+                <button
+                  onClick={() => router.push('/')}
+                  className="font-semibold py-5 px-16 mt-8 rounded-full w-full max-w-xs mx-auto relative z-10 text-xl transition-all bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg cursor-pointer"
+                >
+                  {t.backToHome}
+                </button>
+              </div></>
           ) : (
             // Show loading spinner when game is initializing
             <div className="text-center">

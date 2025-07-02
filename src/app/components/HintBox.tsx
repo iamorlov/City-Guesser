@@ -72,8 +72,11 @@ export default function HintBox({
   return (
     <div className="bg-[#E4EFE7] p-5 pr-0 rounded-xl flex flex-col h-full max-h-screen">
       <div className="backdrop-blur-md flex flex-col h-full rounded-lg overflow-hidden">
-        <div className="flex px-5 text-[#588157] text-5xl">
-          {t.title}<span className="font-[800]">{t.titleBold}</span>
+        <div className="flex items-center justify-between px-5 text-[#588157] text-5xl">
+          <span>
+            {t.title}<span className="font-[800]">{t.titleBold}</span>
+          </span>
+          <LanguageSelector />
         </div>
       
       <div 
@@ -94,7 +97,6 @@ export default function HintBox({
               </div>
             )}
           </div>
-          <LanguageSelector />
         </div>
         
         {/* Hints container with ref for scrolling */}

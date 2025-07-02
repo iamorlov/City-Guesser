@@ -57,7 +57,7 @@ export default function DifficultySelect({ selectedDifficulty, onDifficultySelec
   const selectedOption = difficulties.find(d => d.id === selectedDifficulty);
 
   return (
-    <div className="w-full max-w-sm mx-auto relative z-20">
+    <div className="w-full max-w-xs mx-auto relative z-20">
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
