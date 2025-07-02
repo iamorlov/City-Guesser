@@ -7,6 +7,7 @@ interface GameMapProps {
   onMarkerPlaced: (lat: number, lng: number) => void;
   revealCity?: {
     name: string;
+    nameEn: string;
     lat: number;
     lng: number;
   };

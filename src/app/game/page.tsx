@@ -11,12 +11,7 @@ import { useLocale } from '../../i18n/LocaleProvider';
 import { Locale } from '../../i18n';
 import DifficultySelect from '../components/DifficultySelect';
 import MapBackground from '../components/MapBackground';
-
-interface City {
-  name: string;
-  lat: number;
-  lng: number;
-}
+import { City } from '../../types';
 
 export default function GamePage() {
   const router = useRouter();
@@ -137,7 +132,12 @@ export default function GamePage() {
 
     if (!guessCity || !targetCity) return;
 
-    const isCorrect = guessCity.trim().toLowerCase() === targetCity.name.trim().toLowerCase();
+    const guessLower = guessCity.trim().toLowerCase();
+    const targetNameLower = targetCity.name.trim().toLowerCase();
+    const targetNameEnLower = targetCity.nameEn.trim().toLowerCase();
+
+    // Check if the guess matches either the localized name or English name
+    const isCorrect = guessLower === targetNameLower || guessLower === targetNameEnLower;
 
     if (isCorrect) {
       endGame('win');

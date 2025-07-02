@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { Locale } from '../../i18n';
+import { City } from '../../types';
 
 // Use the same client setup as grokClient.ts
 const getGrokClient = () => {
@@ -9,13 +10,6 @@ const getGrokClient = () => {
     dangerouslyAllowBrowser: true
   });
 };
-
-// Define City interface
-export interface City {
-  name: string;
-  lat: number;
-  lng: number;
-}
 
 // Define Difficulty type
 export type Difficulty = 'easy' | 'medium' | 'hard';
@@ -55,10 +49,13 @@ export async function initializeGame(difficulty: Difficulty = 'medium', locale: 
           The city should be appropriate for the ${difficulty} difficulty level.
           
           IMPORTANT: Respond in valid JSON format only with this exact structure:
-          {"name": "CityName", "lat": latitude, "lng": longitude}
+          {"name": "CityName", "nameEn": "CityNameInEnglish", "lat": latitude, "lng": longitude}
           
-          The city name must be in ${language}. Do not include any additional text or explanation in your response.
-          Make sure the entire response is valid JSON and the city name is properly translated to ${language}.`
+          The "name" field must be the city name in ${language}.
+          The "nameEn" field must be the city name in English.
+          If the selected language is English, both fields should have the same value.
+          Do not include any additional text or explanation in your response.
+          Make sure the entire response is valid JSON and both city names are properly provided.`
         }
       ],
       response_format: { type: "json_object" },
