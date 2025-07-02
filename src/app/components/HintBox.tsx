@@ -37,21 +37,6 @@ export default function HintBox({
     }
   }, [hints]);
   
-  // Function to get difficulty display info
-  const getDifficultyInfo = () => {
-    if (!difficulty) return null;
-    
-    const difficultyMap = {
-      easy: { name: t.easy, color: 'bg-green-500', textColor: 'text-green-700' },
-      medium: { name: t.medium, color: 'bg-orange-500', textColor: 'text-orange-700' },
-      hard: { name: t.hard, color: 'bg-red-500', textColor: 'text-red-700' },
-    };
-    
-    return difficultyMap[difficulty];
-  };
-  
-  const difficultyInfo = getDifficultyInfo();
-  
   const hintCost = hintCount >= 3 ? 10 : 0;
   const canRequestHint = points >= hintCost;
   
@@ -88,14 +73,6 @@ export default function HintBox({
             <h2 className="text-xl font-bold text-slate-700">
               {t.hints} {hintCount > 0 && <span className="text-gray-400">({hintCount}/10)</span>}
             </h2>
-            {difficultyInfo && (
-              <div className="flex items-center mt-1">
-                <span className="text-xs text-slate-600 mr-2">{t.difficultyLevel}</span>
-                <span className={`text-xs px-2 py-1 rounded-md font-medium ${difficultyInfo.textColor} bg-white/70`}>
-                  {difficultyInfo.name}
-                </span>
-              </div>
-            )}
           </div>
         </div>
         

@@ -22,7 +22,7 @@ export const en = {
   
   // Difficulty selection
   selectDifficulty: "Select Difficulty",
-  selectDifficultyRequired: "Please select a difficulty to start",
+  selectDifficultyRequired: "Please select a difficulty",
   easy: "Easy",
   medium: "Medium",
   hard: "Hard",

@@ -68,7 +68,7 @@ export default function LanguageSelector() {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 bg-white/90 backdrop-blur-sm border border-slate-200/50 rounded-lg shadow-lg z-50">
+        <div className="absolute top-full right-0 mt-1 bg-white/90 backdrop-blur-sm border border-slate-200/50 rounded-lg shadow-lg z-50 text-sm">
           {languages.map((language) => (
             <button
               key={language.code}

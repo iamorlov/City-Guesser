@@ -24,7 +24,7 @@ export const ru: TranslationKeys = {
   
   // Difficulty selection
   selectDifficulty: "Выберите сложность",
-  selectDifficultyRequired: "Пожалуйста, выберите сложность для начала",
+  selectDifficultyRequired: "Пожалуйста, выберите сложность",
   easy: "Легко",
   medium: "Средне",
   hard: "Сложно",

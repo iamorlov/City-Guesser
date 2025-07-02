@@ -32,6 +32,21 @@ export default function GamePage() {
   const [gameOver, setGameOver] = useState(false);
   const [gameResult, setGameResult] = useState<'win' | 'lose' | null>(null);
 
+  // Function to get difficulty display info
+  const getDifficultyInfo = () => {
+    if (!difficulty) return null;
+
+    const difficultyMap = {
+      easy: { name: t.easy, color: 'bg-green-500', textColor: 'text-green-700' },
+      medium: { name: t.medium, color: 'bg-orange-500', textColor: 'text-orange-700' },
+      hard: { name: t.hard, color: 'bg-red-500', textColor: 'text-red-700' },
+    };
+
+    return difficultyMap[difficulty];
+  };
+
+  const difficultyInfo = getDifficultyInfo();
+
   useEffect(() => {
     // Check if difficulty was set from home page
     const storedDifficulty = localStorage.getItem('selectedDifficulty') as Difficulty;
@@ -230,8 +245,16 @@ export default function GamePage() {
                         </div>
                       </div>
 
-                      <p className="text-gray-500 text-xs text-center italic mt-1">
-                        {t.writeCityOrMap}
+                      <p className="text-gray-500 text-xs text-center mt-1">
+                        <span className="italic">{t.writeCityOrMap}</span>
+                        {difficultyInfo && (
+                          <>
+                            &nbsp;•&nbsp;
+                            <span className=" mr-2">{t.difficultyLevel}</span>
+                            <span className={`text-xs px-2 py-1 rounded-md font-medium ${difficultyInfo.textColor} bg-white/70`}>
+                              {difficultyInfo.name}
+                            </span></>
+                        )}
                       </p>
                     </div>
                   </motion.div>
