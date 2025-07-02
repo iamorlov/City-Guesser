@@ -12,14 +12,15 @@ export default function Home() {
   const [isStarting, setIsStarting] = useState(false);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>('medium');
   const router = useRouter();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
 
   const handleStart = () => {
     if (!selectedDifficulty) return;
 
     setIsStarting(true);
-    // Store difficulty in localStorage to pass to game page
+    // Store difficulty and locale in localStorage to pass to game page
     localStorage.setItem('selectedDifficulty', selectedDifficulty);
+    localStorage.setItem('selectedLocale', locale);
     // Add a small delay for animation
     setTimeout(() => router.push("/game"), 300);
   };

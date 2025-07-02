@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import { useLocale } from '../../i18n/LocaleProvider';
-import LanguageSelector from './LanguageSelector';
 
 type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -22,7 +21,6 @@ export default function HintBox({
   points, 
   onRequestHint, 
   loading,
-  difficulty,
 }: HintBoxProps) {
   const { t } = useLocale();
   // Create a ref for the scrollable container
@@ -61,7 +59,7 @@ export default function HintBox({
           <span>
             {t.title}<span className="font-[800]">{t.titleBold}</span>
           </span>
-          <LanguageSelector />
+          {/* <LanguageSelector /> */}
         </div>
       
       <div 

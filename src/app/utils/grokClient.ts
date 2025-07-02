@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { Locale } from '../../i18n';
 
 const getGrokClient = () => {
   return new OpenAI({
@@ -8,9 +9,19 @@ const getGrokClient = () => {
   });
 };
 
-export async function getHint(hintNumber: number, cityName: string, previousHints: string[] = []): Promise<string> {
+// Language mapping for API calls
+const getLanguageName = (locale: Locale): string => {
+  const languageMap = {
+    en: 'English',
+    ru: 'Russian'
+  };
+  return languageMap[locale] || 'English';
+};
+
+export async function getHint(hintNumber: number, cityName: string, previousHints: string[] = [], locale: Locale = 'en'): Promise<string> {
   try {
     const client = getGrokClient();
+    const language = getLanguageName(locale);
 
     // Create a prompt for Grok that asks for an appropriate hint
     const previousHintsText = previousHints.length > 0 
@@ -33,16 +44,20 @@ export async function getHint(hintNumber: number, cityName: string, previousHint
       Also, try to make the clues interesting and detailed.
       You can give several facts in one clue, as long as they are of equal difficulty.
       
-      IMPORTANT: Do not repeat any information from the previous hints listed below. Make sure your new hint provides completely different facts and aspects about the city.${previousHintsText}
+      IMPORTANT: 
+      - You must respond ONLY in ${language}. 
+      - All text in your response must be in ${language}.
+      - Do not repeat any information from the previous hints listed below. 
+      - Make sure your new hint provides completely different facts and aspects about the city.${previousHintsText}
       
-      Respond with ONLY the hint text, nothing else.
+      Respond with ONLY the hint text in ${language}, nothing else.
     `;
 
     // Call Grok API
     const completion = await client.chat.completions.create({
       model: "grok-3-mini",
       messages: [
-        { role: "system", content: "You provide geography hints that are progressively more specific but never reveal the city name directly." },
+        { role: "system", content: `You provide geography hints that are progressively more specific but never reveal the city name directly. You must respond ONLY in ${language}. All text in your response must be in ${language}.` },
         { role: "user", content: prompt }
       ],
       temperature: 0.7,
@@ -54,8 +69,19 @@ export async function getHint(hintNumber: number, cityName: string, previousHint
   } catch (error) {
     console.error('Grok API error:', error);
 
-    // Fallback to preset hints if API fails
-    const sampleHints = [
+    // Fallback to preset hints if API fails - in the selected language
+    const sampleHints = locale === 'ru' ? [
+      "Этот город расположен на континенте с разнообразными культурами и языками.",
+      "Климат здесь характеризуется четкими сезонными изменениями в течение года.",
+      "Эта городская территория имеет историческое значение, насчитывающее несколько веков.",
+      "Вода играет важную роль в географии этого места.",
+      "Местная кухня имеет характерные вкусы и ингредиенты.",
+      "Уникальные архитектурные стили определяют городской горизонт.",
+      "Город был показан во многих знаменитых творческих работах.",
+      "Заметная транспортная система используется местными жителями и туристами.",
+      "Знаковую достопримечательность можно увидеть из многих точек города.",
+      "Город проводит известное ежегодное мероприятие, которое привлекает посетителей."
+    ] : [
       "This city is located on a continent with diverse cultures and languages.",
       "The climate here features distinct seasonal changes throughout the year.",
       "This urban area has historical significance dating back centuries.",

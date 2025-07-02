@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import GameMap from '../components/GameMap';
@@ -8,6 +8,7 @@ import HintBox from '../components/HintBox';
 import { getHint } from '../utils/grokClient';
 import { initializeGame, Difficulty } from '../utils/gameUtils';
 import { useLocale } from '../../i18n/LocaleProvider';
+import { Locale } from '../../i18n';
 import DifficultySelect from '../components/DifficultySelect';
 import MapBackground from '../components/MapBackground';
 
@@ -19,7 +20,7 @@ interface City {
 
 export default function GamePage() {
   const router = useRouter();
-  const { t } = useLocale();
+  const { t, locale, setLocale } = useLocale();
   const [gameStarted, setGameStarted] = useState(false);
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
   const [points, setPoints] = useState(70);
@@ -37,9 +38,9 @@ export default function GamePage() {
     if (!difficulty) return null;
 
     const difficultyMap = {
-      easy: { name: t.easy, color: 'bg-green-500', textColor: 'text-green-700' },
-      medium: { name: t.medium, color: 'bg-orange-500', textColor: 'text-orange-700' },
-      hard: { name: t.hard, color: 'bg-red-500', textColor: 'text-red-700' },
+      easy: { name: t.easy},
+      medium: { name: t.medium},
+      hard: { name: t.hard},
     };
 
     return difficultyMap[difficulty];
@@ -47,22 +48,10 @@ export default function GamePage() {
 
   const difficultyInfo = getDifficultyInfo();
 
-  useEffect(() => {
-    // Check if difficulty was set from home page
-    const storedDifficulty = localStorage.getItem('selectedDifficulty') as Difficulty;
-    if (storedDifficulty) {
-      setDifficulty(storedDifficulty);
-      // Clear from localStorage after using
-      localStorage.removeItem('selectedDifficulty');
-      // Start the game with the selected difficulty
-      startGame(storedDifficulty);
-    }
-  }, []);
-
-  const startGame = async (selectedDifficulty: Difficulty) => {
+  const startGame = useCallback(async (selectedDifficulty: Difficulty) => {
     setLoading(true);
     try {
-      const city = await initializeGame(selectedDifficulty);
+      const city = await initializeGame(selectedDifficulty, locale);
       setTargetCity(city);
       setGameStarted(true);
     } catch (error) {
@@ -70,7 +59,26 @@ export default function GamePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [locale]);
+
+  useEffect(() => {
+    // Check if difficulty and locale were set from home page
+    const storedDifficulty = localStorage.getItem('selectedDifficulty') as Difficulty;
+    const storedLocale = localStorage.getItem('selectedLocale') as Locale;
+    
+    if (storedLocale && storedLocale !== locale) {
+      setLocale(storedLocale);
+    }
+    
+    if (storedDifficulty) {
+      setDifficulty(storedDifficulty);
+      // Clear from localStorage after using
+      localStorage.removeItem('selectedDifficulty');
+      localStorage.removeItem('selectedLocale');
+      // Start the game with the selected difficulty
+      startGame(storedDifficulty);
+    }
+  }, [locale, setLocale, startGame]); // Added all dependencies
 
   const requestHint = async () => {
     const hintCost = hintCount >= 3 ? 10 : 0;
@@ -79,7 +87,7 @@ export default function GamePage() {
     setLoading(true);
     try {
       setPoints(prev => prev - hintCost);
-      const newHint = await getHint(hintCount + 1, targetCity?.name || '', hints);
+      const newHint = await getHint(hintCount + 1, targetCity?.name || '', hints, locale);
       setHints(prev => [...prev, newHint]);
       setHintCount(prev => prev + 1);
     } catch (error) {
@@ -250,8 +258,8 @@ export default function GamePage() {
                         {difficultyInfo && (
                           <>
                             &nbsp;•&nbsp;
-                            <span className=" mr-2">{t.difficultyLevel}</span>
-                            <span className={`text-xs px-2 py-1 rounded-md font-medium ${difficultyInfo.textColor} bg-white/70`}>
+                            <span className="mr-1">{t.difficultyLevel}</span>
+                            <span className="font-semibold">
                               {difficultyInfo.name}
                             </span></>
                         )}
