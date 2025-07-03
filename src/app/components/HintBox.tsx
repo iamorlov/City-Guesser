@@ -26,11 +26,11 @@ export default function HintBox({
   // Create a ref for the scrollable container
   const hintsContainerRef = useRef<HTMLDivElement>(null);
   
-  // Scroll to bottom when hints change
+  // Scroll to top when hints change (since latest hints are now on top)
   useEffect(() => {
     if (hintsContainerRef.current && hints.length > 0) {
       setTimeout(() => {
-        hintsContainerRef.current!.scrollTop = hintsContainerRef.current!.scrollHeight;
+        hintsContainerRef.current!.scrollTop = 0;
       }, 100); // Small delay to ensure animation has started
     }
   }, [hints]);
@@ -76,29 +76,52 @@ export default function HintBox({
         
         {/* Hints container with ref for scrolling */}
         <div className="flex-grow space-y-4 pr-2 overflow-y-auto min-h-0">
-          {hints.length === 0 ? (
+          {hints.length === 0 && !loading ? (
             <div className="flex items-center justify-center h-full min-h-[200px]">
               <p className="text-slate-500 italic text-center px-4 py-8 bg-slate-50/70 backdrop-blur-sm rounded-lg">
                 {t.hintsWillAppear}
               </p>
             </div>
           ) : (
-            <AnimatePresence>
-              {hints.map((hint, index) => (
+            <div className="space-y-4">
+              {/* Show animated dots when loading any hint */}
+              {loading && (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-slate-50/70 backdrop-blur-sm p-4 rounded-lg border border-slate-200/50"
+                  className="flex justify-center items-center py-8"
                 >
-                  <p className="text-slate-700">{hint}</p>
-                  <div className="text-xs text-slate-500 mt-2 flex items-center">
-                    <span className="bg-slate-200/70 backdrop-blur-sm px-2 py-1 rounded-md">{t.hintNumber}{index + 1}</span>
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-[#588157] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-[#588157] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-[#588157] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                   </div>
                 </motion.div>
-              ))}
-            </AnimatePresence>
+              )}
+              
+              {/* Show hints in reverse order (latest on top) */}
+              <AnimatePresence>
+                {hints.slice().reverse().map((hint, reverseIndex) => {
+                  const originalIndex = hints.length - 1 - reverseIndex;
+                  return (
+                    <motion.div
+                      key={originalIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-slate-50/70 backdrop-blur-sm p-4 rounded-lg border border-slate-200/50"
+                    >
+                      <p className="text-slate-700">{hint}</p>
+                      <div className="text-xs text-slate-500 mt-2 flex items-center">
+                        <span className="bg-slate-200/70 backdrop-blur-sm px-2 py-1 rounded-md">{t.hintNumber}{originalIndex + 1}</span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
           )}
         </div>
       </div>
