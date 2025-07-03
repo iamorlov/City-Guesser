@@ -75,7 +75,7 @@ export default function HintBox({
         </div>
         
         {/* Hints container with ref for scrolling */}
-        <div className="flex-grow space-y-4 pr-2 overflow-y-auto min-h-0">
+        <div className="flex-grow space-y-4 pr-2 overflow-y-auto min-h-0 hints-scrollbar">
           {hints.length === 0 && !loading ? (
             <div className="flex items-center justify-center h-full min-h-[200px]">
               <p className="text-slate-500 italic text-center px-4 py-8 bg-slate-50/70 backdrop-blur-sm rounded-lg">

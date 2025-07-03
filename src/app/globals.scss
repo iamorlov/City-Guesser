@@ -4,6 +4,33 @@
   font-family: var(--font-montserrat), sans-serif;
 }
 
+/* Custom green scrollbar for hints container */
+.hints-scrollbar {
+  /* For Webkit browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #84a98c;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #d8f3dc;
+  }
+
+  /* For Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #84a98c rgba(255, 255, 255, 0.1);
+}
+
 /* Game-specific styles */
 .hint-container {
   height: 100%;
