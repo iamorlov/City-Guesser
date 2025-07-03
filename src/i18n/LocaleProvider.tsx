@@ -24,7 +24,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     if (saved && ['en', 'ru'].includes(saved) && saved !== locale) {
       setLocale(saved);
     }
-  }, []);
+  }, [locale]);
 
   // Save to localStorage whenever locale changes (but only after hydration)
   useEffect(() => {

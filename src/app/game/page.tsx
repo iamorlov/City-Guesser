@@ -8,17 +8,15 @@ import HintBox from '../components/HintBox';
 import { getHint } from '../utils/grokClient';
 import { initializeGame, Difficulty } from '../utils/gameUtils';
 import { useLocale } from '../../i18n/LocaleProvider';
-import { Locale } from '../../i18n';
 import DifficultySelect from '../components/DifficultySelect';
 import MapBackground from '../components/MapBackground';
 import { City } from '../../types';
 
 export default function GamePage() {
   const router = useRouter();
-  const { t, locale, setLocale } = useLocale();
+  const { t, locale } = useLocale();
   const [gameStarted, setGameStarted] = useState(false);
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
-  const [isHydrated, setIsHydrated] = useState(false);
   const [points, setPoints] = useState(70);
   const [hints, setHints] = useState<string[]>([]);
   const [hintCount, setHintCount] = useState(0);
@@ -59,7 +57,6 @@ export default function GamePage() {
 
   useEffect(() => {
     // Load difficulty from localStorage after hydration
-    setIsHydrated(true);
     const storedDifficulty = localStorage.getItem('geo-difficulty') as Difficulty;
     
     if (storedDifficulty && ['easy', 'medium', 'hard'].includes(storedDifficulty)) {

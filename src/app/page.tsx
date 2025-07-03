@@ -13,7 +13,7 @@ export default function Home() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>('medium');
   const [isHydrated, setIsHydrated] = useState(false);
   const router = useRouter();
-  const { t, locale } = useLocale();
+  const { t } = useLocale();
 
   // Load from localStorage after hydration
   useEffect(() => {
