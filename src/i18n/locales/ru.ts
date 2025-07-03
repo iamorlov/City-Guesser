@@ -46,7 +46,7 @@ export const ru: TranslationKeys = {
   betterLuck: "Удачи в следующий раз!",
   playAgain: "Играть снова",
   backToHome: "Вернуться домой",
-  initializingGame: "Инициализация игры...",
+  initializingGame: "Загадываем город...",
   difficultyLevel: "Сложность:",
   
   // Common

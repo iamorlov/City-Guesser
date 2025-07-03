@@ -44,7 +44,7 @@ export const en = {
   betterLuck: "Better luck next time!",
   playAgain: "Play Again",
   backToHome: "Back to Home",
-  initializingGame: "Initializing game...",
+  initializingGame: "Choosing a city...",
   difficultyLevel: "Difficulty:",
   
   // Common

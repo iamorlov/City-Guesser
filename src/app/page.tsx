@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import MapBackground from "./components/MapBackground";
@@ -11,16 +11,30 @@ import DifficultySelect, { Difficulty } from "./components/DifficultySelect";
 export default function Home() {
   const [isStarting, setIsStarting] = useState(false);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>('medium');
+  const [isHydrated, setIsHydrated] = useState(false);
   const router = useRouter();
   const { t, locale } = useLocale();
+
+  // Load from localStorage after hydration
+  useEffect(() => {
+    setIsHydrated(true);
+    const saved = localStorage.getItem('geo-difficulty') as Difficulty;
+    if (saved && ['easy', 'medium', 'hard'].includes(saved)) {
+      setSelectedDifficulty(saved);
+    }
+  }, []);
+
+  // Save difficulty to localStorage whenever it changes (but only after hydration)
+  useEffect(() => {
+    if (isHydrated && selectedDifficulty) {
+      localStorage.setItem('geo-difficulty', selectedDifficulty);
+    }
+  }, [selectedDifficulty, isHydrated]);
 
   const handleStart = () => {
     if (!selectedDifficulty) return;
 
     setIsStarting(true);
-    // Store difficulty and locale in localStorage to pass to game page
-    localStorage.setItem('selectedDifficulty', selectedDifficulty);
-    localStorage.setItem('selectedLocale', locale);
     // Add a small delay for animation
     setTimeout(() => router.push("/game"), 300);
   };

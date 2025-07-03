@@ -18,6 +18,7 @@ export default function GamePage() {
   const { t, locale, setLocale } = useLocale();
   const [gameStarted, setGameStarted] = useState(false);
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [points, setPoints] = useState(70);
   const [hints, setHints] = useState<string[]>([]);
   const [hintCount, setHintCount] = useState(0);
@@ -57,23 +58,20 @@ export default function GamePage() {
   }, [locale]);
 
   useEffect(() => {
-    // Check if difficulty and locale were set from home page
-    const storedDifficulty = localStorage.getItem('selectedDifficulty') as Difficulty;
-    const storedLocale = localStorage.getItem('selectedLocale') as Locale;
+    // Load difficulty from localStorage after hydration
+    setIsHydrated(true);
+    const storedDifficulty = localStorage.getItem('geo-difficulty') as Difficulty;
     
-    if (storedLocale && storedLocale !== locale) {
-      setLocale(storedLocale);
-    }
-    
-    if (storedDifficulty) {
+    if (storedDifficulty && ['easy', 'medium', 'hard'].includes(storedDifficulty)) {
       setDifficulty(storedDifficulty);
-      // Clear from localStorage after using
-      localStorage.removeItem('selectedDifficulty');
-      localStorage.removeItem('selectedLocale');
       // Start the game with the selected difficulty
       startGame(storedDifficulty);
+    } else {
+      // Fallback to medium difficulty if no valid difficulty is stored
+      setDifficulty('medium');
+      startGame('medium');
     }
-  }, [locale, setLocale, startGame]); // Added all dependencies
+  }, [startGame]);
 
   const requestHint = async () => {
     const hintCost = hintCount >= 3 ? 10 : 0;
