@@ -18,7 +18,8 @@ export type Difficulty = 'easy' | 'medium' | 'hard';
 const getLanguageName = (locale: Locale): string => {
   const languageMap = {
     en: 'English',
-    ru: 'Russian'
+    ru: 'Russian',
+    uk: 'Ukrainian'
   };
   return languageMap[locale] || 'English';
 };
@@ -37,7 +38,7 @@ export async function initializeGame(difficulty: Difficulty = 'medium', locale: 
 
     // Ask Grok to select a city based on difficulty
     const completion = await client.chat.completions.create({
-      model: "grok-3-mini",
+      model: "grok-3",
       messages: [
         {
           role: "system",

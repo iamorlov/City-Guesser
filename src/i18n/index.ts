@@ -1,9 +1,11 @@
 import { en } from './locales/en';
 import { ru } from './locales/ru';
+import { uk } from './locales/uk';
 
 export const locales = {
   en,
   ru,
+  uk,
 } as const;
 
 export type Locale = keyof typeof locales;

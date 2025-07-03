@@ -26,6 +26,7 @@ export default function LanguageSelector() {
   const languages = [
     { code: 'en' as Locale, name: t.english },
     { code: 'ru' as Locale, name: t.russian },
+    { code: 'uk' as Locale, name: t.ukrainian },
   ];
 
   const currentLanguage = languages.find(lang => lang.code === locale);

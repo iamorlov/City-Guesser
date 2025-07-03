@@ -21,7 +21,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setIsHydrated(true);
     const saved = localStorage.getItem('geo-lang') as Locale;
-    if (saved && ['en', 'ru'].includes(saved)) {
+    if (saved && ['en', 'ru', 'uk'].includes(saved)) {
       setLocale(saved);
     }
   }, []);

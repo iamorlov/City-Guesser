@@ -13,7 +13,8 @@ const getGrokClient = () => {
 const getLanguageName = (locale: Locale): string => {
   const languageMap = {
     en: 'English',
-    ru: 'Russian'
+    ru: 'Russian',
+    uk: 'Ukrainian'
   };
   return languageMap[locale] || 'English';
 };
@@ -55,7 +56,7 @@ export async function getHint(hintNumber: number, cityName: string, previousHint
 
     // Call Grok API
     const completion = await client.chat.completions.create({
-      model: "grok-3-mini",
+      model: "grok-3",
       messages: [
         { role: "system", content: `You provide geography hints that are progressively more specific but never reveal the city name directly. You must respond ONLY in ${language}. All text in your response must be in ${language}.` },
         { role: "user", content: prompt }
@@ -68,33 +69,6 @@ export async function getHint(hintNumber: number, cityName: string, previousHint
 
   } catch (error) {
     console.error('Grok API error:', error);
-
-    // Fallback to preset hints if API fails - in the selected language
-    const sampleHints = locale === 'ru' ? [
-      "Этот город расположен на континенте с разнообразными культурами и языками.",
-      "Климат здесь характеризуется четкими сезонными изменениями в течение года.",
-      "Эта городская территория имеет историческое значение, насчитывающее несколько веков.",
-      "Вода играет важную роль в географии этого места.",
-      "Местная кухня имеет характерные вкусы и ингредиенты.",
-      "Уникальные архитектурные стили определяют городской горизонт.",
-      "Город был показан во многих знаменитых творческих работах.",
-      "Заметная транспортная система используется местными жителями и туристами.",
-      "Знаковую достопримечательность можно увидеть из многих точек города.",
-      "Город проводит известное ежегодное мероприятие, которое привлекает посетителей."
-    ] : [
-      "This city is located on a continent with diverse cultures and languages.",
-      "The climate here features distinct seasonal changes throughout the year.",
-      "This urban area has historical significance dating back centuries.",
-      "Water plays an important role in the geography of this location.",
-      "The local cuisine has distinctive flavors and ingredients.",
-      "Unique architectural styles define the city's skyline.",
-      "The city has been featured in many famous creative works.",
-      "A notable transportation system is used by locals and tourists.",
-      "An iconic landmark can be seen from many points in the city.",
-      "The city hosts a well-known annual event that attracts visitors."
-    ];
-
-    // Return a sample hint based on hint number (cycling through the array)
-    return sampleHints[(hintNumber - 1) % sampleHints.length];
+    throw new Error('Failed to get hint from Grok. Please try again later.');
   }
 }

@@ -55,7 +55,7 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="z-10"
         >
-          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-[500] text-gray-800 mb-8 sm:mb-10 md:mb-12 z-10 relative leading-tight">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gray-800 mb-8 sm:mb-10 md:mb-12 z-10 relative leading-tight">
             <span className="text-[#588157]">
               {t.title}<span className="font-[700]">{t.titleBold}</span>
             </span>

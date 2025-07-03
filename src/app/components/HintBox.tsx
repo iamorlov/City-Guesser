@@ -77,7 +77,7 @@ export default function HintBox({
             {/* Home Button */}
             <button
               onClick={handleHomeClick}
-              className="py-2.5 px-4 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
+              className="py-2.5 px-4 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 cursor-pointer"
               title="Home"
             >
               <svg
@@ -99,7 +99,7 @@ export default function HintBox({
             {/* Restart Button */}
             <button
               onClick={handleRestartClick}
-              className="py-2.5 px-4 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
+              className="py-2.5 px-4 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 cursor-pointer"
               title="Restart"
             >
               <svg

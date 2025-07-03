@@ -98,7 +98,7 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
         
         // Create the map instance
         const mapInstance = new Map(mapRef.current!, {
-          center: { lat: 20, lng: 0 },
+          center: { lat: 35, lng: 17 },
           zoom: 4,
           mapTypeId: google.maps.MapTypeId.TERRAIN,
           mapTypeControl: false,
