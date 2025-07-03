@@ -191,6 +191,7 @@ export default function GamePage() {
                 onRequestHint={requestHint}
                 loading={loading}
                 difficulty={difficulty || undefined}
+                onRestart={playAgain}
               />
             </motion.div>
           </div>
