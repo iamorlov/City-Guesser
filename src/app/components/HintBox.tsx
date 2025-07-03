@@ -67,7 +67,7 @@ export default function HintBox({
   };
   
   return (
-    <div className="bg-[#E4EFE7] p-3 sm:p-5 rounded-xl flex flex-col h-full max-h-screen">
+    <div className="bg-[#E4EFE7] p-1 sm:p-5 rounded-xl flex flex-col h-full max-h-screen">
       <div className="backdrop-blur-md flex flex-col h-full rounded-lg overflow-hidden">
         <div className="flex items-center justify-between px-3 sm:px-5 text-[#588157] text-3xl sm:text-4xl lg:text-5xl">
           <span>
@@ -77,7 +77,7 @@ export default function HintBox({
             {/* Home Button */}
             <button
               onClick={handleHomeClick}
-              className="py-1.5 px-3 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
+              className="py-2.5 px-4 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
               title="Home"
             >
               <svg
@@ -99,7 +99,7 @@ export default function HintBox({
             {/* Restart Button */}
             <button
               onClick={handleRestartClick}
-              className="py-1.5 px-3 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
+              className="py-2.5 px-4 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
               title="Restart"
             >
               <svg
@@ -185,7 +185,7 @@ export default function HintBox({
       </div>
       
       {/* Button outside scrollable area */}
-      <div className="p-3 sm:p-5 pb-0 flex-shrink-0">
+      <div className="p-3 sm:p-5 pb-3 flex-shrink-0">
         <button
           onClick={onRequestHint}
           disabled={!canRequestHint || loading}

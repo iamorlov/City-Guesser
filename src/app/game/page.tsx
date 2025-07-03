@@ -225,7 +225,7 @@ export default function GamePage() {
 
           {/* Mobile Layout: Hints Panel */}
           <div className={`lg:hidden h-full w-full ${showHints ? 'block' : 'hidden'}`}>
-            <div className="h-full pt-16 pb-4 px-4">
+            <div className="h-full pt-20 pb-4 px-4">
               <motion.div
                 initial={{ x: -100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}

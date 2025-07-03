@@ -21,10 +21,10 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setIsHydrated(true);
     const saved = localStorage.getItem('geo-lang') as Locale;
-    if (saved && ['en', 'ru'].includes(saved) && saved !== locale) {
+    if (saved && ['en', 'ru'].includes(saved)) {
       setLocale(saved);
     }
-  }, [locale]);
+  }, []);
 
   // Save to localStorage whenever locale changes (but only after hydration)
   useEffect(() => {
