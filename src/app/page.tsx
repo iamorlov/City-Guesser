@@ -74,15 +74,13 @@ export default function Home() {
             <motion.button
               onClick={handleStart}
               disabled={isStarting || !selectedDifficulty}
-              className={`font-bold py-5 px-16 mt-8 rounded-full w-full max-w-xs mx-auto relative z-10 text-xl transition-all ${selectedDifficulty
-                  ? 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg cursor-pointer'
+              className={`font-bold py-5 px-16 mt-8 rounded-full w-full max-w-xs mx-auto relative z-10 text-xl ${selectedDifficulty
+                  ? 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white cursor-pointer transition-all duration-300 ease-in-out hover:shadow-sm'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 } ${isStarting ? 'opacity-70' : ''}`}
-              whileHover={selectedDifficulty ? { scale: 1.025 } : {}}
-              whileTap={selectedDifficulty ? { scale: 1 } : {}}
             >
               {isStarting ? (
-                <span className="flex items-center z-10 relative">
+                <span className="flex items-center justify-center z-10 relative">
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"

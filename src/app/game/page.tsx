@@ -227,7 +227,7 @@ export default function GamePage() {
                               value={manualCityInput}
                               onChange={handleManualInputChange}
                               placeholder={t.enterCityName}
-                              className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-800 border border-gray-500/50 focus:border-[#588157] focus:outline-none text-base placeholder-gray-500"
+                              className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-700 border border-gray-500/20 focus:border-gray-500/60 focus:outline-none text-base placeholder-gray-400"
                             />
                             {selectedCity && manualCityInput !== selectedCity && (
                               <p className="absolute -bottom-6 left-0 text-xs text-gray-600 mt-1">
