@@ -26,6 +26,7 @@ export default function GamePage() {
   const [targetCity, setTargetCity] = useState<City | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [gameResult, setGameResult] = useState<'win' | 'lose' | null>(null);
+  const [showHints, setShowHints] = useState(true); // For mobile toggle
 
   // Function to get difficulty display info
   const getDifficultyInfo = () => {
@@ -173,11 +174,37 @@ export default function GamePage() {
   };
 
   return (
-    <main className={`h-screen w-screen flex ${difficulty !== null ? 'bg-[#E4EFE7]' : ''}`}>
+    <main className={`h-screen w-screen flex flex-col lg:flex-row ${difficulty !== null ? 'bg-[#E4EFE7]' : ''}`}>
       {gameStarted ? (
         <>
-          {/* Chat Sidebar - Fixed width */}
-          <div className="min-w-108 w-108 h-full flex-shrink-0">
+          {/* Mobile Toggle Buttons */}
+          <div className="lg:hidden fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-sm">
+            <div className="flex">
+              <button
+                onClick={() => setShowHints(true)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all min-w-[7rem] ${
+                  showHints 
+                    ? 'bg-[#588157] text-white shadow-sm' 
+                    : 'text-gray-600 hover:text-[#588157]'
+                }`}
+              >
+                {t.hints}
+              </button>
+              <button
+                onClick={() => setShowHints(false)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all min-w-[7rem] ${
+                  !showHints 
+                    ? 'bg-[#588157] text-white shadow-sm' 
+                    : 'text-gray-600 hover:text-[#588157]'
+                }`}
+              >
+                {t.map}
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop Layout: Chat Sidebar - Fixed width */}
+          <div className="hidden lg:block min-w-108 w-108 h-full flex-shrink-0">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -196,8 +223,30 @@ export default function GamePage() {
             </motion.div>
           </div>
 
-          {/* Map Area - Takes remaining space */}
-          <div className="flex-1 h-full p-6 relative">
+          {/* Mobile Layout: Hints Panel */}
+          <div className={`lg:hidden h-full w-full ${showHints ? 'block' : 'hidden'}`}>
+            <div className="h-full pt-16 pb-4 px-4">
+              <motion.div
+                initial={{ x: -100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="h-full flex flex-col"
+              >
+                <HintBox
+                  hints={hints}
+                  hintCount={hintCount}
+                  points={points}
+                  onRequestHint={requestHint}
+                  loading={loading}
+                  difficulty={difficulty || undefined}
+                  onRestart={playAgain}
+                />
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Desktop Map Area - Takes remaining space */}
+          <div className="hidden lg:block flex-1 h-full p-6 relative">
             <div className="w-full h-full rounded-2xl overflow-hidden relative shadow-sm">
               <GameMap
                 onMarkerPlaced={handleMarkerPlaced}
@@ -267,35 +316,96 @@ export default function GamePage() {
             </div>
           </div>
 
+          {/* Mobile Map Area */}
+          <div className={`lg:hidden h-full w-full ${!showHints ? 'block' : 'hidden'}`}>
+            <div className="h-full p-4 pt-11 relative">
+              <div className="w-full h-full rounded-xl overflow-hidden relative shadow-sm">
+                <GameMap
+                  onMarkerPlaced={handleMarkerPlaced}
+                  revealCity={gameOver ? (targetCity || undefined) : undefined}
+                  gameOver={gameOver}
+                />
+
+                {/* Mobile Input field - simplified for smaller screens */}
+                {!gameOver && (
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <motion.div
+                      initial={{ y: 50, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      className="bg-white/90 backdrop-blur-md rounded-lg p-4 shadow-lg"
+                    >
+                      <div className="space-y-3">
+                        <div>
+                          <label htmlFor="cityInputMobile" className="text-gray-700 text-sm mb-1.5 block font-medium">
+                            {t.cityName}
+                          </label>
+                          <input
+                            id="cityInputMobile"
+                            type="text"
+                            value={manualCityInput}
+                            onChange={handleManualInputChange}
+                            placeholder={t.enterCityName}
+                            className="w-full h-12 px-4 rounded-lg bg-white/80 text-gray-700 border border-gray-300 focus:border-[#588157] focus:outline-none text-base placeholder-gray-400"
+                          />
+                          {selectedCity && manualCityInput !== selectedCity && (
+                            <p className="text-xs text-gray-600 mt-1">
+                              {t.differentFromMap} <span className="font-medium">{selectedCity}</span>
+                            </p>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={submitGuess}
+                          disabled={(!manualCityInput && !selectedCity) || !targetCity}
+                          className="w-full h-12 bg-[#588157] hover:bg-[#3a5a40] text-white rounded-lg disabled:opacity-40 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all font-medium cursor-pointer"
+                        >
+                          {!targetCity ? t.startGameFirst : t.submitGuess}
+                        </button>
+
+                        {difficultyInfo && (
+                          <p className="text-gray-500 text-xs text-center">
+                            <span className="mr-1">{t.difficultyLevel}</span>
+                            <span className="font-semibold">{difficultyInfo.name}</span>
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Game Over Modal */}
           {gameOver && (
-            <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+            <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-sm p-4">
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-white/95 backdrop-blur-md p-8 rounded-xl max-w-md mx-4 shadow-xl"
+                className="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-xl max-w-md mx-4 shadow-xl w-full"
               >
-                <h2 className={`text-3xl font-bold mb-4 ${gameResult === 'win' ? 'text-[#588157]' : 'text-[#14213d]'}`}>
+                <h2 className={`text-2xl sm:text-3xl font-bold mb-4 text-center ${gameResult === 'win' ? 'text-[#588157]' : 'text-[#14213d]'}`}>
                   {gameResult === 'win' ? t.youWon : t.gameOver}
                 </h2>
 
-                <p className="text-gray-600 text-lg mb-8">
+                <p className="text-gray-600 text-base sm:text-lg mb-6 sm:mb-8 text-center">
                   {gameResult === 'win'
                     ? `${t.congratulations} ${targetCity?.name}!`
                     : `${t.cityWas} ${targetCity?.name}. ${t.betterLuck}`
                   }
                 </p>
 
-                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
                   <button
                     onClick={playAgain}
-                    className="bg-[#588157] hover:bg-[#3a5a40] text-white font-bold py-3 px-6 rounded-lg transition-all cursor-pointer"
+                    className="bg-[#588157] hover:bg-[#3a5a40] text-white font-bold py-3 px-6 rounded-lg transition-all cursor-pointer text-center"
                   >
                     {t.playAgain}
                   </button>
                   <button
                     onClick={goHome}
-                    className="bg-transparent border border-[#588157] hover:bg-[#588157]/10 text-[#588157] font-bold py-3 px-6 rounded-lg transition-all cursor-pointer"
+                    className="bg-transparent border border-[#588157] hover:bg-[#588157]/10 text-[#588157] font-bold py-3 px-6 rounded-lg transition-all cursor-pointer text-center"
                   >
                     {t.backToHome}
                   </button>
@@ -305,13 +415,13 @@ export default function GamePage() {
           )}
         </>
       ) : (
-        <div className="absolute inset-0 flex justify-center items-center">
+        <div className="absolute inset-0 flex justify-center items-center p-4">
           {difficulty === null ? (
             <>
               <MapBackground />
 
-              <div className="text-center p-8 w-lg max-w-xl mx-4 rounded-[4rem] bg-white/5 backdrop-blur-[3px]">
-                <h2 className="text-2xl font-bold text-[#588157] mb-6">{t.selectDifficultyRequired}</h2>
+              <div className="text-center p-6 sm:p-8 w-full max-w-xl mx-4 rounded-2xl sm:rounded-[4rem] bg-white/5 backdrop-blur-[3px]">
+                <h2 className="text-xl sm:text-2xl font-bold text-[#588157] mb-4 sm:mb-6">{t.selectDifficultyRequired}</h2>
                 <DifficultySelect
                   selectedDifficulty={null}
                   onDifficultySelect={(selectedDifficulty) => {
@@ -321,16 +431,16 @@ export default function GamePage() {
                 />
                 <button
                   onClick={() => router.push('/')}
-                  className="font-semibold py-5 px-16 mt-8 rounded-full w-full max-w-xs mx-auto relative z-10 text-xl transition-all bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg cursor-pointer"
+                  className="font-semibold py-4 px-8 sm:py-5 sm:px-16 mt-6 sm:mt-8 rounded-full w-full max-w-xs mx-auto relative z-10 text-lg sm:text-xl transition-all bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg cursor-pointer"
                 >
                   {t.backToHome}
                 </button>
               </div></>
           ) : (
             // Show loading spinner when game is initializing
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-700 mx-auto mb-6"></div>
-              <p className="text-[#588157] text-xl">{t.initializingGame}</p>
+            <div className="text-center p-4">
+              <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-2 border-b-2 border-green-700 mx-auto mb-4 sm:mb-6"></div>
+              <p className="text-[#588157] text-lg sm:text-xl">{t.initializingGame}</p>
             </div>
           )}
         </div>

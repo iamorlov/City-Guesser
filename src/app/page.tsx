@@ -40,33 +40,33 @@ export default function Home() {
   };
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
+    <main className="relative flex min-h-screen flex-col items-center justify-center p-4 sm:p-6 md:p-4 overflow-hidden">
       <MapBackground />
 
       {/* Language selector positioned in top right */}
-      <div className="absolute top-6 right-6 z-20">
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
         <LanguageSelector />
       </div>
 
-      <div className="relative text-center max-w-6xl mx-auto py-8 px-16 rounded-[7rem] bg-white/5 backdrop-blur-[2px]">
+      <div className="relative text-center w-full max-w-6xl mx-auto py-6 px-6 sm:py-8 sm:px-8 md:px-16 rounded-3xl sm:rounded-[4rem] md:rounded-[7rem] bg-white/5 backdrop-blur-[2px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="z-10"
         >
-          <h1 className="text-8xl md:text-9xl font-[500] text-gray-800 mb-12 z-10 relative">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-[500] text-gray-800 mb-8 sm:mb-10 md:mb-12 z-10 relative leading-tight">
             <span className="text-[#588157]">
               {t.title}<span className="font-[700]">{t.titleBold}</span>
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-600 mb-12 z-10 relative font-semibold">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 sm:mb-10 md:mb-12 z-10 relative font-semibold px-2">
             {t.tagline}
           </p>
 
           {/* Difficulty Selection */}
-          <div className="mb-8 z-10 relative">
+          <div className="mb-6 sm:mb-8 z-10 relative">
             <DifficultySelect
               selectedDifficulty={selectedDifficulty}
               onDifficultySelect={setSelectedDifficulty}
@@ -74,7 +74,7 @@ export default function Home() {
             <motion.button
               onClick={handleStart}
               disabled={isStarting || !selectedDifficulty}
-              className={`font-bold py-5 px-16 mt-8 rounded-full w-full max-w-xs mx-auto relative z-10 text-xl ${selectedDifficulty
+              className={`font-bold py-4 px-8 sm:py-5 sm:px-12 md:px-16 mt-6 sm:mt-8 rounded-full w-full max-w-xs mx-auto relative z-10 text-lg sm:text-xl ${selectedDifficulty
                   ? 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white cursor-pointer transition-all duration-300 ease-in-out hover:shadow-sm'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 } ${isStarting ? 'opacity-70' : ''}`}

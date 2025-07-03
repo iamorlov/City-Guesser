@@ -67,21 +67,21 @@ export default function HintBox({
   };
   
   return (
-    <div className="bg-[#E4EFE7] p-5 pr-0 rounded-xl flex flex-col h-full max-h-screen">
+    <div className="bg-[#E4EFE7] p-3 sm:p-5 rounded-xl flex flex-col h-full max-h-screen">
       <div className="backdrop-blur-md flex flex-col h-full rounded-lg overflow-hidden">
-        <div className="flex items-center justify-between px-5 text-[#588157] text-5xl">
+        <div className="flex items-center justify-between px-3 sm:px-5 text-[#588157] text-3xl sm:text-4xl lg:text-5xl">
           <span>
             {t.title}<span className="font-[800]">{t.titleBold}</span>
           </span>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Home Button */}
             <button
               onClick={handleHomeClick}
-              className="p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
+              className="py-1.5 px-3 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
               title="Home"
             >
               <svg
-                className="w-6 h-6"
+                className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -99,11 +99,11 @@ export default function HintBox({
             {/* Restart Button */}
             <button
               onClick={handleRestartClick}
-              className="p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
+              className="py-1.5 px-3 sm:p-2 rounded-lg bg-white/25 hover:bg-white/50 text-[#588157] hover:text-[#3a5a40] transition-all duration-200 hover:shadow-sm cursor-pointer"
               title="Restart"
             >
               <svg
-                className="w-6 h-6"
+                className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -122,26 +122,26 @@ export default function HintBox({
       
       <div 
         ref={hintsContainerRef} 
-        className="p-5 flex-grow flex flex-col overflow-y-auto scroll-smooth min-h-0"
+        className="p-3 sm:p-5 flex-grow flex flex-col overflow-y-auto scroll-smooth min-h-0"
       >
-        <div className="flex justify-between items-center mb-6 flex-shrink-0">
+        <div className="flex justify-between items-center mb-4 sm:mb-6 flex-shrink-0">
           <div className="flex flex-col">
-            <h2 className="text-lg text-gray-600">
+            <h2 className="text-base sm:text-lg text-gray-600">
               <span className="font-bold">{t.hints} </span>{hintCount > 0 && <span className="text-gray-400">({hintCount}/10)</span>}
             </h2>
           </div>
         </div>
         
         {/* Hints container with ref for scrolling */}
-        <div className="flex-grow space-y-4 pr-2 overflow-y-auto min-h-0 hints-scrollbar">
+        <div className="flex-grow space-y-3 sm:space-y-4 pr-2 overflow-y-auto min-h-0 hints-scrollbar">
           {hints.length === 0 && !loading ? (
-            <div className="flex items-center justify-center h-full min-h-[200px]">
-              <p className="text-slate-500 italic text-center px-4 py-8 bg-slate-50/70 backdrop-blur-sm rounded-lg">
+            <div className="flex items-center justify-center h-full min-h-[150px] sm:min-h-[200px]">
+              <p className="text-slate-500 italic text-center px-3 sm:px-4 py-6 sm:py-8 bg-slate-50/70 backdrop-blur-sm rounded-lg text-sm sm:text-base">
                 {t.hintsWillAppear}
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Show animated dots when loading any hint */}
               {loading && (
                 <motion.div
@@ -149,7 +149,7 @@ export default function HintBox({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex justify-center items-center py-8"
+                  className="flex justify-center items-center py-6 sm:py-8"
                 >
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-[#588157] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
@@ -169,11 +169,11 @@ export default function HintBox({
                       initial={{ opacity: 0, y: -20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="bg-slate-50/70 backdrop-blur-sm p-4 rounded-lg border border-slate-200/50"
+                      className="bg-slate-50/70 backdrop-blur-sm p-3 sm:p-4 rounded-lg border border-slate-200/50"
                     >
-                      <p className="text-slate-700">{hint}</p>
+                      <p className="text-slate-700 text-sm sm:text-base leading-relaxed">{hint}</p>
                       <div className="text-xs text-slate-500 mt-2 flex items-center">
-                        <span className="bg-slate-200/70 backdrop-blur-sm px-2 py-1 rounded-md">{t.hintNumber}{originalIndex + 1}</span>
+                        <span className="bg-slate-200/70 backdrop-blur-sm px-2 py-1 rounded-md text-xs">{t.hintNumber}{originalIndex + 1}</span>
                       </div>
                     </motion.div>
                   );
@@ -185,11 +185,11 @@ export default function HintBox({
       </div>
       
       {/* Button outside scrollable area */}
-      <div className="p-5 pb-0 flex-shrink-0">
+      <div className="p-3 sm:p-5 pb-0 flex-shrink-0">
         <button
           onClick={onRequestHint}
           disabled={!canRequestHint || loading}
-          className={`w-full py-3 px-4 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-sm ${
+          className={`w-full py-3 px-4 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-sm text-sm sm:text-base ${
             canRequestHint 
               ? 'bg-[#588157] hover:bg-[#3a5a40] text-white' 
               : 'bg-slate-200/70 text-slate-400 cursor-not-allowed backdrop-blur-sm border border-slate-300/50'

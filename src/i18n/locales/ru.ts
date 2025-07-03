@@ -52,4 +52,5 @@ export const ru: TranslationKeys = {
   // Common
   points: "очков",
   loading: "Загрузка...",
+  map: "Карта",
 };

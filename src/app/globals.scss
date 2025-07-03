@@ -4,6 +4,23 @@
   font-family: var(--font-montserrat), sans-serif;
 }
 
+/* Ensure touch targets are accessible on mobile */
+@media (max-width: 640px) {
+  button, 
+  input, 
+  select, 
+  textarea {
+    min-height: 44px;
+  }
+  
+  /* Prevent zoom on input focus for iOS */
+  input, 
+  select, 
+  textarea {
+    font-size: 16px;
+  }
+}
+
 /* Custom green scrollbar for hints container */
 .hints-scrollbar {
   /* For Webkit browsers (Chrome, Safari, Edge) */
@@ -64,6 +81,14 @@
 
 .result-lose {
   background: linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(244, 67, 54, 0.1) 100%);
+}
+
+/* Mobile-optimized tap targets */
+@media (max-width: 1024px) {
+  .mobile-tap-target {
+    min-height: 48px;
+    min-width: 48px;
+  }
 }
 
 /* Animations */

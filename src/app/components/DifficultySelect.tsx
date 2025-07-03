@@ -61,18 +61,18 @@ export default function DifficultySelect({ selectedDifficulty, onDifficultySelec
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full bg-white/90 backdrop-blur-sm rounded-full px-8 py-3 text-left focus:outline-none transition-all cursor-pointer hover:shadow-sm"
+          className="w-full bg-white/90 backdrop-blur-sm rounded-full px-6 sm:px-8 py-3 text-left focus:outline-none transition-all cursor-pointer hover:shadow-sm"
         >
           <div className="flex items-center justify-between">
             {selectedOption ? (
               <div className="flex items-center space-x-3">
                 <div>
-                  <div className="font-medium text-gray-600">{selectedOption.name}</div>
-                  <div className="text-sm text-gray-500">{selectedOption.description}</div>
+                  <div className="font-medium text-gray-600 text-sm sm:text-base">{selectedOption.name}</div>
+                  <div className="text-xs sm:text-sm text-gray-500">{selectedOption.description}</div>
                 </div>
               </div>
             ) : (
-              <span className="text-gray-500">{t.selectDifficulty}</span>
+              <span className="text-gray-500 text-sm sm:text-base">{t.selectDifficulty}</span>
             )}
             <svg
               className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -101,7 +101,7 @@ export default function DifficultySelect({ selectedDifficulty, onDifficultySelec
                     onDifficultySelect(difficulty.id);
                     setIsOpen(false);
                   }}
-                  className={`w-full px-8 py-3 text-left transition-colors first:rounded-t-3xl last:rounded-b-3xl relative z-40 cursor-pointer ${
+                  className={`w-full px-6 sm:px-8 py-3 text-left transition-colors first:rounded-t-3xl last:rounded-b-3xl relative z-40 cursor-pointer ${
                     selectedDifficulty === difficulty.id
                       ? 'bg-[#588157]/10 text-[#588157]'
                       : 'hover:bg-gray-100 text-gray-900'
@@ -109,8 +109,8 @@ export default function DifficultySelect({ selectedDifficulty, onDifficultySelec
                 >
                   <div className="flex items-center space-x-3">
                     <div>
-                      <div className="font-medium text-gray-600">{difficulty.name}</div>
-                      <div className="text-sm text-gray-500">{difficulty.description}</div>
+                      <div className="font-medium text-gray-600 text-sm sm:text-base">{difficulty.name}</div>
+                      <div className="text-xs sm:text-sm text-gray-500">{difficulty.description}</div>
                     </div>
                   </div>
                 </button>

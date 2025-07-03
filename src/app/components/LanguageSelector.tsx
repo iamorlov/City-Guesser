@@ -34,11 +34,11 @@ export default function LanguageSelector() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3 py-3 text-sm text-slate-600 hover:text-slate-800 transition-colors bg-white/20 backdrop-blur-sm rounded-lg hover:bg-white/30 cursor-pointer"
+        className="flex items-center space-x-2 px-4 sm:px-3 py-2 sm:py-3 text-sm text-slate-600 hover:text-slate-800 transition-colors bg-white/20 backdrop-blur-sm rounded-lg hover:bg-white/30 cursor-pointer"
       >
-        <span>{currentLanguage?.name}</span>
+        <span className="text-xs sm:text-sm">{currentLanguage?.name}</span>
         <svg
-          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -54,7 +54,7 @@ export default function LanguageSelector() {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 bg-white/90 backdrop-blur-sm border border-slate-200/50 rounded-lg shadow-lg z-50 text-sm">
+        <div className="absolute top-full right-0 mt-1 bg-white/90 backdrop-blur-sm border border-slate-200/50 rounded-lg shadow-lg z-50 text-sm min-w-[80px]">
           {languages.map((language) => (
             <button
               key={language.code}
@@ -62,7 +62,7 @@ export default function LanguageSelector() {
                 setLocale(language.code);
                 setIsOpen(false);
               }}
-              className={`w-full px-3 py-2 text-sm hover:bg-slate-100 hover:font-semibold transition-colors first:rounded-t-lg last:rounded-b-lg cursor-pointer ${
+              className={`w-full px-2 sm:px-3 py-2 text-xs sm:text-sm hover:bg-slate-100 hover:font-semibold transition-colors first:rounded-t-lg last:rounded-b-lg cursor-pointer ${
                 locale === language.code ? 'bg-slate-50 text-[#588157] font-semibold' : 'text-slate-700'
               }`}
             >

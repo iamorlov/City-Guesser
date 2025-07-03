@@ -50,6 +50,7 @@ export const en = {
   // Common
   points: "points",
   loading: "Loading...",
+  map: "Map",
 };
 
 export type TranslationKeys = typeof en;
