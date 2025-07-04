@@ -7,6 +7,7 @@ import MapBackground from "./components/MapBackground";
 import { useLocale } from "../i18n/LocaleProvider";
 import LanguageSelector from "./components/LanguageSelector";
 import DifficultySelect, { Difficulty } from "./components/DifficultySelect";
+import { setupSessionStorageClear } from "./utils/gameUtils";
 
 export default function Home() {
   const [isStarting, setIsStarting] = useState(false);
@@ -30,6 +31,12 @@ export default function Home() {
       localStorage.setItem('geo-difficulty', selectedDifficulty);
     }
   }, [selectedDifficulty, isHydrated]);
+
+  // Setup sessionStorage clearing on page unload
+  useEffect(() => {
+    const cleanup = setupSessionStorageClear();
+    return cleanup; // Cleanup function for component unmount
+  }, []);
 
   const handleStart = () => {
     if (!selectedDifficulty) return;

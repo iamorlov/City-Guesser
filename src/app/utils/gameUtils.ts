@@ -75,6 +75,23 @@ export const clearUsedCities = (): void => {
   }
 };
 
+// Setup to clear sessionStorage when the site is closed
+export const setupSessionStorageClear = (): (() => void) | void => {
+  if (typeof window === 'undefined') return;
+  
+  const handleBeforeUnload = () => {
+    clearUsedCities();
+  };
+
+  // Add event listener for when the user closes the tab/browser or navigates away
+  window.addEventListener('beforeunload', handleBeforeUnload);
+  
+  // Return cleanup function (useful for React components)
+  return () => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+  };
+};
+
 // Create exclusion list prompt
 const createExclusionPrompt = (usedCities: string[]): string => {
   if (usedCities.length === 0) return '';
