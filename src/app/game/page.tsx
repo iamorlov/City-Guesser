@@ -27,6 +27,7 @@ export default function GamePage() {
   const [gameOver, setGameOver] = useState(false);
   const [gameResult, setGameResult] = useState<'win' | 'lose' | null>(null);
   const [showHints, setShowHints] = useState(true); // For mobile toggle
+  const [gameKey, setGameKey] = useState(0); // Key to force GameMap remount on restart
 
   // Function to get difficulty display info
   const getDifficultyInfo = () => {
@@ -123,6 +124,12 @@ export default function GamePage() {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      submitGuess();
+    }
+  };
+
   const submitGuess = () => {
     const guessCity = manualCityInput || selectedCity;
 
@@ -138,12 +145,7 @@ export default function GamePage() {
     if (isCorrect) {
       endGame('win');
     } else {
-      const newPoints = points - 20;
-      setPoints(newPoints);
-
-      if (newPoints <= 0) {
-        endGame('lose');
-      }
+      endGame('lose');
     }
   };
 
@@ -152,7 +154,8 @@ export default function GamePage() {
     setGameResult(result);
   };
 
-  const playAgain = () => {
+  const playAgain = useCallback(() => {
+    // Reset all game state first
     setGameStarted(false);
     setPoints(70);
     setHints([]);
@@ -163,11 +166,18 @@ export default function GamePage() {
     setTargetCity(null);
     setGameOver(false);
     setGameResult(null);
+    
+    // Increment game key to force GameMap remount
+    setGameKey(prev => prev + 1);
 
-    if (difficulty) {
-      startGame(difficulty);
-    }
-  };
+    // Use setTimeout to allow React to finish processing state updates
+    // before starting a new game to prevent DOM manipulation conflicts
+    setTimeout(() => {
+      if (difficulty) {
+        startGame(difficulty);
+      }
+    }, 100);
+  }, [difficulty, startGame]);
 
   const goHome = () => {
     router.push('/');
@@ -249,6 +259,7 @@ export default function GamePage() {
           <div className="hidden lg:block flex-1 h-full p-6 relative">
             <div className="w-full h-full rounded-2xl overflow-hidden relative shadow-sm">
               <GameMap
+                key={`desktop-map-${gameKey}`}
                 onMarkerPlaced={handleMarkerPlaced}
                 revealCity={gameOver ? (targetCity || undefined) : undefined}
                 gameOver={gameOver}
@@ -276,6 +287,7 @@ export default function GamePage() {
                               type="text"
                               value={manualCityInput}
                               onChange={handleManualInputChange}
+                              onKeyPress={handleKeyPress}
                               placeholder={t.enterCityName}
                               className="w-full h-12 px-4 rounded-lg bg-transparent text-gray-700 border border-gray-500/20 focus:border-gray-500/60 focus:outline-none text-base placeholder-gray-400"
                             />
@@ -321,6 +333,7 @@ export default function GamePage() {
             <div className="h-full p-4 pt-11 relative">
               <div className="w-full h-full rounded-xl overflow-hidden relative shadow-sm">
                 <GameMap
+                  key={`mobile-map-${gameKey}`}
                   onMarkerPlaced={handleMarkerPlaced}
                   revealCity={gameOver ? (targetCity || undefined) : undefined}
                   gameOver={gameOver}
@@ -345,6 +358,7 @@ export default function GamePage() {
                             type="text"
                             value={manualCityInput}
                             onChange={handleManualInputChange}
+                            onKeyPress={handleKeyPress}
                             placeholder={t.enterCityName}
                             className="w-full h-12 px-4 rounded-lg bg-white/80 text-gray-700 border border-gray-300 focus:border-[#588157] focus:outline-none text-base placeholder-gray-400"
                           />
@@ -383,7 +397,7 @@ export default function GamePage() {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-xl max-w-md mx-4 shadow-xl w-full"
+                className="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-xl max-w-lg mx-4 shadow-xl w-full"
               >
                 <h2 className={`text-2xl sm:text-3xl font-bold mb-4 text-center ${gameResult === 'win' ? 'text-[#588157]' : 'text-[#14213d]'}`}>
                   {gameResult === 'win' ? t.youWon : t.gameOver}

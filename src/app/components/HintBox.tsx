@@ -61,9 +61,12 @@ export default function HintBox({
   };
 
   const handleRestartClick = () => {
-    if (onRestart) {
-      onRestart();
-    }
+    // Add a small delay to prevent DOM manipulation conflicts
+    setTimeout(() => {
+      if (onRestart) {
+        onRestart();
+      }
+    }, 50);
   };
   
   return (

@@ -48,14 +48,14 @@ export default function Home() {
         <LanguageSelector />
       </div>
 
-      <div className="relative text-center w-full max-w-6xl mx-auto py-6 px-6 sm:py-8 sm:px-8 md:px-16 rounded-3xl sm:rounded-[4rem] md:rounded-[7rem] bg-white/5 backdrop-blur-[2px]">
+      <div className="relative text-center w-full max-w-4xl mx-auto py-6 px-6 sm:py-8 sm:px-8 md:px-16 rounded-3xl sm:rounded-[4rem] md:rounded-[7rem] bg-white/5 backdrop-blur-[2px]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="z-10"
         >
-          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gray-800 mb-8 sm:mb-10 md:mb-12 z-10 relative leading-tight">
+          <h1 className="text-6xl sm:text-6xl md:text-8xl lg:text-9xl text-gray-800 mb-8 sm:mb-10 md:mb-12 z-10 relative leading-tight">
             <span className="text-[#588157]">
               {t.title}<span className="font-[700]">{t.titleBold}</span>
             </span>

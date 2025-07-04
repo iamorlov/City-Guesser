@@ -39,6 +39,7 @@ export async function getHint(hintNumber: number, cityName: string, previousHint
       The clues must be given in order, starting with the least known facts so that it is difficult to guess the city,
       and ending with more detailed or well-known information. It can be anything: a historical fact, famous buildings,
       climate, cuisine... The main thing is to follow the rule: start with difficult clues and then move on to easier ones.
+      Starting with clue #5, give specific details, such as dates, famous events, well-known people, or something else.
       For clue #9, provide the country where the city is located, as well as the number of letters in the city's name,
       and for the last clue, #10, reveal the name of the city, where a random third of the letters are replaced with the symbol "*".
       The most important thing is that all clues must be true.

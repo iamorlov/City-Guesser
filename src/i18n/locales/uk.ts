@@ -48,7 +48,7 @@ export const uk: TranslationKeys = {
   playAgain: "Грати знову",
   backToHome: "Повернутися додому",
   initializingGame: "Загадуємо місто..." ,
-  difficultyLevel: "Складність:",
+  difficultyLevel: "Рівень складності:",
   
   // Common
   points: "очок",
