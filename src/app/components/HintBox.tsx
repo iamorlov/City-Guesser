@@ -188,7 +188,7 @@ export default function HintBox({
       </div>
       
       {/* Button outside scrollable area */}
-      <div className="p-3 sm:p-5 pb-3 flex-shrink-0">
+      <div className="p-3 sm:p-5 sm:pb-0 flex-shrink-0">
         <button
           onClick={onRequestHint}
           disabled={!canRequestHint || loading}

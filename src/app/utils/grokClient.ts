@@ -43,6 +43,7 @@ export async function getHint(hintNumber: number, cityName: string, previousHint
       For clue #9, provide the country where the city is located, as well as the number of letters in the city's name,
       and for the last clue, #10, reveal the name of the city, where a random third of the letters are replaced with the symbol "*".
       The most important thing is that all clues must be true.
+      No need to number the hints in the answer.
       Also, try to make the clues interesting and detailed.
       You can give several facts in one clue, as long as they are of equal difficulty.
       
