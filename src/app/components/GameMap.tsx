@@ -17,7 +17,9 @@ interface GameMapProps {
 // Create a single loader instance outside the component
 const loader = new Loader({
   apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
-  version: 'weekly'
+  version: 'weekly',
+  language: 'en', // Force English language for all map content
+  region: 'US' // Use US region for consistent English naming
 });
 
 export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMapProps) {
@@ -115,6 +117,12 @@ export default function GameMap({ onMarkerPlaced, revealCity, gameOver }: GameMa
               featureType: 'administrative.province',
               elementType: 'geometry.stroke',
               stylers: [{ visibility: 'off' }]
+            },
+            // Ensure all text labels are in English
+            {
+              featureType: 'all',
+              elementType: 'labels.text',
+              stylers: [{ visibility: 'on' }]
             }
           ]
         });
