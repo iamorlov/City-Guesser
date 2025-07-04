@@ -45,6 +45,7 @@ export default function GamePage() {
   const difficultyInfo = getDifficultyInfo();
 
   const startGame = useCallback(async (selectedDifficulty: Difficulty) => {
+    console.log('startGame called with difficulty:', selectedDifficulty);
     setLoading(true);
     try {
       const city = await initializeGame(selectedDifficulty, locale);
@@ -58,18 +59,35 @@ export default function GamePage() {
   }, [locale]);
 
   useEffect(() => {
-    // Load difficulty from localStorage after hydration
-    const storedDifficulty = localStorage.getItem('geo-difficulty') as Difficulty;
+    let mounted = true; // Flag to prevent double execution
     
-    if (storedDifficulty && ['easy', 'medium', 'hard'].includes(storedDifficulty)) {
-      setDifficulty(storedDifficulty);
-      // Start the game with the selected difficulty
-      startGame(storedDifficulty);
-    } else {
-      // Fallback to medium difficulty if no valid difficulty is stored
-      setDifficulty('medium');
-      startGame('medium');
-    }
+    const initGame = async () => {
+      if (!mounted) return; // Exit if component unmounted or effect already ran
+      
+      // Load difficulty from localStorage after hydration
+      const storedDifficulty = localStorage.getItem('geo-difficulty') as Difficulty;
+      
+      if (storedDifficulty && ['easy', 'medium', 'hard'].includes(storedDifficulty)) {
+        setDifficulty(storedDifficulty);
+        // Start the game with the selected difficulty
+        if (mounted) {
+          await startGame(storedDifficulty);
+        }
+      } else {
+        // Fallback to medium difficulty if no valid difficulty is stored
+        setDifficulty('medium');
+        if (mounted) {
+          await startGame('medium');
+        }
+      }
+    };
+    
+    initGame();
+    
+    // Cleanup function to prevent double execution
+    return () => {
+      mounted = false;
+    };
   }, [startGame]);
 
   const requestHint = async () => {

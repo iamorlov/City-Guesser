@@ -56,6 +56,7 @@ export async function getHint(hintNumber: number, cityName: string, previousHint
     `;
 
     // Call Grok API
+    console.log(`Making API call to get hint #${hintNumber} for city: ${cityName}`);
     const completion = await client.chat.completions.create({
       model: "grok-3",
       messages: [
@@ -66,7 +67,9 @@ export async function getHint(hintNumber: number, cityName: string, previousHint
     });
 
     // Extract the hint from Grok's response
-    return completion.choices[0]?.message?.content?.trim() || "No hint available";
+    const hint = completion.choices[0]?.message?.content?.trim() || "No hint available";
+    console.log(`Successfully received hint #${hintNumber} for city: ${cityName}`);
+    return hint;
 
   } catch (error) {
     console.error('Grok API error:', error);
